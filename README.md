@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+
+### use this command for create next-app
+$ npx create-next-app kokokara-snap-frontend --ts --tailwind --eslint
+ - ✔ Would you like to use `src/` directory? … Yes 
+ - ✔ Would you like to use App Router? (recommended) … Yes 
+ - ✔ Would you like to customize the default import alias (@/*)? … No
+
+
+
 ## Getting Started
 
 First, run the development server:
