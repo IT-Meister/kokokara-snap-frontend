@@ -1,45 +1,81 @@
-import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
+import React, { useState } from "react";
+import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ";
+const MAPBOX_TOKEN =
+  "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ"; // Replace with your Mapbox access token
 
 const MapComponent: React.FC = () => {
-  const mapContainer = useRef(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const [lng, setLng] = useState(-122.4194);
-  const [lat, setLat] = useState(37.7749);
-  const [zoom, setZoom] = useState(12);
+  const [viewport, setViewport] = useState({
+    latitude: 37.7749,
+    longitude: -122.4194,
+    zoom: 12,
+  });
 
-  useEffect(() => {
-    if (map.current) return; // initialize map only once
+  const [selectedLocation, setSelectedLocation] = useState<{
+    longitude: number;
+    latitude: number;
+    description: string;
+  } | null>(null);
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current!,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: zoom,
-    });
-
-    map.current.on("move", () => {
-      setLng(parseFloat(map.current!.getCenter().lng.toFixed(4)));
-      setLat(parseFloat(map.current!.getCenter().lat.toFixed(4)));
-      setZoom(parseFloat(map.current!.getZoom().toFixed(2)));
-    });
-
-    // Adding marker on map click
-    map.current.on("click", (e) => {
-      const { lngLat } = e;
-      new mapboxgl.Marker().setLngLat(lngLat).addTo(map.current!);
-      console.log(`Clicked at ${lngLat.lng}, ${lngLat.lat}`);
-    });
-  }, []);
+  const locations = [
+    {
+      longitude: -122.4194,
+      latitude: 37.7749,
+      description: "Property in San Francisco",
+    },
+    {
+      longitude: -122.418,
+      latitude: 37.7749,
+      description: "Property in New York",
+    },
+    {
+      longitude: -118.243683,
+      latitude: 34.052235,
+      description: "Property in Los Angeles",
+    },
+  ];
 
   return (
-    <div style={{ position: "relative" }}>
-      <div ref={mapContainer} style={{ width: "100%", height: "100vh" }} />
-    </div>
+    <ReactMapGL
+      {...viewport}
+      mapboxAccessToken={MAPBOX_TOKEN}
+      style={{ width: "100vw", height: "100vh" }}
+      mapStyle="mapbox://styles/mapbox/streets-v11"
+      onMove={(evt) => setViewport(evt.viewState)}
+    >
+      {locations.map((location, index) => (
+        <Marker
+          key={index}
+          longitude={location.longitude}
+          latitude={location.latitude}
+        >
+          <div
+            onClick={() => setSelectedLocation(location)}
+            style={{
+              backgroundColor: "#fff",
+              padding: "5px",
+              borderRadius: "50%",
+              cursor: "pointer",
+            }}
+          >
+            📍
+          </div>
+        </Marker>
+      ))}
+
+      {selectedLocation && (
+        <Popup
+          longitude={selectedLocation.longitude}
+          latitude={selectedLocation.latitude}
+          onClose={() => setSelectedLocation(null)}
+          closeOnClick={true}
+          anchor="top"
+        >
+          <div>{selectedLocation.description}</div>
+        </Popup>
+      )}
+    </ReactMapGL>
   );
 };
 
