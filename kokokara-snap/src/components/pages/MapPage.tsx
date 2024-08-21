@@ -1,6 +1,6 @@
 import React from "react";
 import MapComponent from "../common/Map/MapComponent";
-import MapDetailsPanel from "../common/Map/MapDetailsPanel";
+import MapPhotoDetailsPanel from "../common/Map/MapPhotoDetailsPanel";
 import MapSidebar from "../common/Map/MapSidebar";
 
 const MapPage: React.FC = () => {
@@ -10,7 +10,7 @@ const MapPage: React.FC = () => {
       <MapComponent />
 
       {/* Details Panel (Displays details on clicking a map point) */}
-      <MapDetailsPanel />
+      <MapPhotoDetailsPanel />
 
       {/* Right Sidebar (Shows images and information) */}
       <MapSidebar />
