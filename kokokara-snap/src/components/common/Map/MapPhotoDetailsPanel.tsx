@@ -1,30 +1,41 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material";
 
-const MapDetailsPanel: React.FC = () => {
+interface PhotoDetailViewProps {
+  title: string;
+  imageUrl: string;
+  description: string;
+}
+
+const PhotoDetailView: React.FC<PhotoDetailViewProps> = ({
+  title,
+  imageUrl,
+  description,
+}) => {
   return (
     <Box
       sx={{
         position: "absolute",
-        bottom: 20,
-        left: 20,
-        backgroundColor: "white",
-        padding: 2,
-        borderRadius: 2,
-        boxShadow: 2,
-        zIndex: 2,
+        left: 0,
+        top: 0,
+        width: "25%", // 1/4 of the map's width
+        height: "65vh", // Full height of the viewport
+        backgroundColor: "#fff",
+        boxShadow: "-2px 0px 5px rgba(0,0,0,0.1)",
+        zIndex: 1, // Ensure it appears above the map
       }}
     >
-      <Typography variant="h6">When you click a point...</Typography>
-      <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-        Details about the selected location will appear here. You can click the
-        button below to get more information.
-      </Typography>
-      <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-        View Details
-      </Button>
+      <Card sx={{ height: "100%" }}>
+        <CardMedia component="img" height="300" image={imageUrl} alt={title} />
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            {title}
+          </Typography>
+          <Typography variant="body1">{description}</Typography>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
 
-export default MapDetailsPanel;
+export default PhotoDetailView;

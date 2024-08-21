@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapMarker from "./MapMarker";
+import MapPhotoDetailsPanel from "./MapPhotoDetailsPanel";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ";
@@ -10,6 +11,12 @@ const MapComponent: React.FC = () => {
   // Initialize with null instead of leaving it undefined
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+
+  const [selectedPhoto, setSelectedPhoto] = useState<{
+    title: string;
+    imageUrl: string;
+    description: string;
+  } | null>(null);
 
   useEffect(() => {
     if (mapContainerRef.current) {
@@ -21,6 +28,7 @@ const MapComponent: React.FC = () => {
         style: "mapbox://styles/mapbox/streets-v12",
         center: [-65.017, -16.457],
         zoom: 6,
+        attributionControl: false,
       });
 
       // DB
@@ -83,7 +91,11 @@ const MapComponent: React.FC = () => {
 
         // click action
         el.addEventListener("click", () => {
-          window.alert(marker.properties.message);
+          setSelectedPhoto({
+            title: marker.properties.message,
+            imageUrl: `https://picsum.photos/id/${marker.properties.imageId}/600/400`,
+            description: marker.properties.message,
+          });
         });
 
         // custom popup
@@ -166,7 +178,14 @@ const MapComponent: React.FC = () => {
       id="map"
       style={{ width: "100vw", height: "100vh" }}
     >
-      {mapRef.current &&
+      {selectedPhoto && (
+        <MapPhotoDetailsPanel
+          title={selectedPhoto.title}
+          imageUrl={selectedPhoto.imageUrl}
+          description={selectedPhoto.description}
+        />
+      )}
+      {/* {mapRef.current &&
         geojson.features.map((feature, index) => (
           <MapMarker
             key={index}
@@ -176,7 +195,7 @@ const MapComponent: React.FC = () => {
             iconSize={feature.properties.iconSize as [number, number]}
             map={mapRef.current}
           />
-        ))}
+        ))} */}
     </div>
   );
 };
