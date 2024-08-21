@@ -16,8 +16,9 @@ const PhotoDetailView: React.FC<PhotoDetailViewProps> = ({
     <Box
       sx={{
         position: "relative",
+        right: 0,
         margin: 1,
-        width: "30%", // 1/4 of the map's width
+        width: "35%", // 1/4 of the map's width
         height: "620px", // Full height of the viewport
         backgroundColor: "#fff",
         boxShadow: "-2px 0px 5px rgba(0,0,0,0.1)",

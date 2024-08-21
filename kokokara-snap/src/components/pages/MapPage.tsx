@@ -1,6 +1,5 @@
 import React from "react";
 import MapComponent from "../common/Map/MapComponent";
-import MapSidebar from "../common/Map/MapSidebar";
 
 const MapPage: React.FC = () => {
   return (
@@ -9,6 +8,7 @@ const MapPage: React.FC = () => {
         position: "relative",
         display: "flex",
         height: "100vh",
+        width: "100%",
       }}
     >
       {/* Map Component */}
