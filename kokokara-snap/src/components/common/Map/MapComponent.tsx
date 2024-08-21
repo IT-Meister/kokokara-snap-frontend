@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl, { LngLatLike } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import MapMarker from "./MapMarker";
 import MapPhotoDetailsPanel from "./MapPhotoDetailsPanel";
+import { SearchBox } from "@mapbox/search-js-react";
+import MapSidebar from "./MapSidebar";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ";
@@ -11,6 +12,8 @@ const MapComponent: React.FC = () => {
   // Initialize with null instead of leaving it undefined
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   const [selectedPhoto, setSelectedPhoto] = useState<{
     title: string;
@@ -29,6 +32,10 @@ const MapComponent: React.FC = () => {
         center: [-65.017, -16.457],
         zoom: 6,
         attributionControl: false,
+      });
+
+      mapRef.current.on("load", () => {
+        setMapLoaded(true);
       });
 
       // DB
@@ -127,75 +134,39 @@ const MapComponent: React.FC = () => {
           .addTo(mapRef.current!);
       }
     }
+
+    // Cleanup on unmount
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+      }
+    };
   }, []);
 
-  // DB
-  const geojson = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        properties: {
-          message: "Foo",
-          imageId: 1011,
-          iconSize: [60, 60],
-        },
-        geometry: {
-          type: "Point",
-          coordinates: [-66.324462, -16.024695],
-        },
-      },
-      {
-        type: "Feature",
-        properties: {
-          message: "Bar",
-          imageId: 870,
-          iconSize: [50, 50],
-        },
-        geometry: {
-          type: "Point",
-          coordinates: [-61.21582, -15.971891],
-        },
-      },
-      {
-        type: "Feature",
-        properties: {
-          message: "Baz",
-          imageId: 837,
-          iconSize: [40, 40],
-        },
-        geometry: {
-          type: "Point",
-          coordinates: [-63.292236, -18.281518],
-        },
-      },
-    ],
-  };
-
   return (
-    <div
-      ref={mapContainerRef}
-      id="map"
-      style={{ width: "100vw", height: "100vh" }}
-    >
-      {selectedPhoto && (
-        <MapPhotoDetailsPanel
-          title={selectedPhoto.title}
-          imageUrl={selectedPhoto.imageUrl}
-          description={selectedPhoto.description}
+    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+      {mapLoaded && (
+        <SearchBox
+          accessToken={MAPBOX_TOKEN}
+          map={mapRef.current!} // Safe because of mapLoaded check
+          mapboxgl={mapboxgl}
+          value={inputValue}
+          onChange={(d) => {
+            setInputValue(d);
+          }}
+          marker
         />
       )}
-      {/* {mapRef.current &&
-        geojson.features.map((feature, index) => (
-          <MapMarker
-            key={index}
-            coordinates={feature.geometry.coordinates as LngLatLike}
-            imageId={feature.properties.imageId}
-            message={feature.properties.message}
-            iconSize={feature.properties.iconSize as [number, number]}
-            map={mapRef.current}
+      <div ref={mapContainerRef} id="map" style={{ height: "100vh" }}>
+        {selectedPhoto && (
+          <MapPhotoDetailsPanel
+            title={selectedPhoto.title}
+            imageUrl={selectedPhoto.imageUrl}
+            description={selectedPhoto.description}
           />
-        ))} */}
+        )}
+      </div>
+      <MapSidebar />
     </div>
   );
 };

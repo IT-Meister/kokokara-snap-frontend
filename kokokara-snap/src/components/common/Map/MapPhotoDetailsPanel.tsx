@@ -15,17 +15,24 @@ const PhotoDetailView: React.FC<PhotoDetailViewProps> = ({
   return (
     <Box
       sx={{
-        position: "absolute",
-        left: 0,
-        top: 0,
-        width: "25%", // 1/4 of the map's width
-        height: "65vh", // Full height of the viewport
+        position: "relative",
+        margin: 1,
+        width: "30%", // 1/4 of the map's width
+        height: "620px", // Full height of the viewport
         backgroundColor: "#fff",
         boxShadow: "-2px 0px 5px rgba(0,0,0,0.1)",
-        zIndex: 1, // Ensure it appears above the map
+        zIndex: 2, // Ensure it appears above the map
+        borderRadius: "16px", // Change the roundness of the corners
       }}
     >
-      <Card sx={{ height: "100%" }}>
+      <Card
+        sx={{
+          height: "100%",
+          minWidth: "200px", // Ensures each card has a minimum width
+          overflow: "hidden", // Ensure content doesn't overflow rounded corners
+          borderRadius: "16px", // Change the roundness of the corners
+        }}
+      >
         <CardMedia component="img" height="300" image={imageUrl} alt={title} />
         <CardContent>
           <Typography variant="h5" gutterBottom>

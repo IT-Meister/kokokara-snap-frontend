@@ -8,15 +8,11 @@ const MapPage: React.FC = () => {
       style={{
         position: "relative",
         display: "flex",
-        width: "100vw",
         height: "100vh",
       }}
     >
       {/* Map Component */}
       <MapComponent />
-
-      {/* bottom Sidebar (Shows images and information) */}
-      <MapSidebar />
     </div>
   );
 };

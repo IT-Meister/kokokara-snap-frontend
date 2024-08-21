@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./components/pages/HomePage";
 import ProfilePage from "./components/pages/ProfilePage";
 import MapPage from "./components/pages/MapPage";
+import MapSearchBoxTest from "./components/common/Map/MapSearchBoxTest";
 
 const App: React.FC = () => {
   return (
+    // <MapSearchBoxTest />
     <MapPage />
     // <Router>
     //   {/* The Router component wraps the whole application, providing routing functionality */}
