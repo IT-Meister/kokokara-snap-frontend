@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback, useMemo, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import {
   Typography,
   TextField,
@@ -6,7 +7,6 @@ import {
   Container,
   Box,
   Paper,
-  IconButton,
   MenuItem,
   Select,
   FormControl,
@@ -14,13 +14,18 @@ import {
   Grid,
   SelectChangeEvent,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Header from "../common/Header";
 
-const PinCreationPage = () => {
-  const [board, setBoard] = React.useState("");
-  const [showMoreOptions, setShowMoreOptions] = React.useState(false);
+const PostPage = () => {
+  const [board, setBoard] = useState("");
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
+
+  // for user inputs
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [link, setLink] = useState("");
+  const [tags, setTags] = useState("");
 
   const handleBoardChange = (event: SelectChangeEvent) => {
     setBoard(event.target.value as string);
@@ -30,6 +35,17 @@ const PinCreationPage = () => {
     setShowMoreOptions(!showMoreOptions);
   };
 
+  const handlePostClick = () => {
+    // Publish button click action
+  };
+
+  // for drag & drop
+  const onDrop = useCallback((acceptedFiles: any) => {
+    // Do something with the files
+    console.log("acceptedFiles:", acceptedFiles);
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <Box sx={{ backgroundColor: "#fff", height: "100vh" }}>
       <Header />
@@ -37,11 +53,11 @@ const PinCreationPage = () => {
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         {/* Save/Publish Button */}
         <Box
+          className="Publish Button"
           sx={{
             display: "flex",
             justifyContent: "flex-end",
-            mt: 4,
-            marginBottom: 5,
+            mb: 4,
           }}
         >
           <Button
@@ -53,46 +69,47 @@ const PinCreationPage = () => {
               fontSize: "16px",
               fontWeight: "bold",
             }}
+            onClick={handlePostClick}
           >
             公開する
           </Button>
         </Box>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
-            {/* Image Preview */}
-            <Paper
-              variant="outlined"
-              sx={{
+            {/* drag & drop Box */}
+            <div
+              {...getRootProps()}
+              style={{
                 width: "100%",
-                paddingTop: "150%",
-                position: "relative",
-                borderRadius: "16px",
-                overflow: "hidden",
               }}
             >
-              <img
-                src="https://via.placeholder.com/300x400"
-                alt="Preview"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-              />
-              <IconButton
+              <input {...getInputProps()} />
+              <Paper
+                variant="outlined"
                 sx={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  backgroundColor: "#fff",
+                  width: "100%",
+                  paddingTop: "150%",
+                  position: "relative",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  border: isDragActive ? "3px solid #e60023" : "1px solid #ddd",
+                  transition: "border 0.1 s ease",
                 }}
               >
-                <EditIcon />
-              </IconButton>
-            </Paper>
+                <img
+                  src="https://via.placeholder.com/300x400"
+                  alt="Preview"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+              </Paper>
+            </div>
           </Grid>
           <Grid item xs={12} sm={8}>
             <TextField
@@ -101,6 +118,8 @@ const PinCreationPage = () => {
               variant="outlined"
               fullWidth
               sx={{ mb: 2 }}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <TextField
               label="説明文"
@@ -110,6 +129,8 @@ const PinCreationPage = () => {
               multiline
               rows={4}
               sx={{ mb: 2 }}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <TextField
               label="リンク"
@@ -117,6 +138,8 @@ const PinCreationPage = () => {
               variant="outlined"
               fullWidth
               sx={{ mb: 2 }}
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
             />
             <FormControl fullWidth sx={{ mb: 2 }}>
               <Select
@@ -138,6 +161,8 @@ const PinCreationPage = () => {
               variant="outlined"
               fullWidth
               sx={{ mb: 2 }}
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
             />
 
             {/* Additional Options */}
@@ -163,4 +188,4 @@ const PinCreationPage = () => {
   );
 };
 
-export default PinCreationPage;
+export default PostPage;
