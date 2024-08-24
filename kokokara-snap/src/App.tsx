@@ -4,6 +4,7 @@ import HomePage from "./components/pages/HomePage";
 import ProfilePage from "./components/pages/ProfilePage";
 import MapPage from "./components/pages/MapPage";
 import PostPage from "./components/pages/PostPage";
+import PostImageUpload from "./components/common/Post/PostImageUpload";
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,8 @@ const App: React.FC = () => {
         <Route path="/map" element={<MapPage />} />{" "}
         {/* ProfilePage is rendered at /profile */}
         <Route path="/post" element={<PostPage />} />{" "}
+        {/* ProfilePage is rendered at /profile */}
+        <Route path="/post/imageupload" element={<PostImageUpload />} />{" "}
         {/* ProfilePage is rendered at /profile */}
       </Routes>
     </Router>
