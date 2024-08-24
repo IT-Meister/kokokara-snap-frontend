@@ -63,14 +63,17 @@ const Header: React.FC = () => {
             <SearchBar /> {/* Insert the SearchBar here */}
           </Box>
         </Box>
-        <IconButton onClick={handleMenuOpen} edge="end" sx={{ height: 60 }}>
-          {" "}
-          {/* Adjust the size here */}
-          <Avatar
-            src="https://via.placeholder.com/50"
-            sx={{ width: "100%", height: "100%" }}
-          />
-        </IconButton>
+        <Box sx={{ paddingLeft: 2 }}>
+          <IconButton onClick={handleMenuOpen} edge="end" sx={{ height: 60 }}>
+            {" "}
+            {/* Adjust the size here */}
+            <Avatar
+              alt="Kojiro Tsugaru"
+              src="https://via.placeholder.com/50"
+              sx={{ width: "100%", height: "100%" }}
+            />
+          </IconButton>
+        </Box>
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
