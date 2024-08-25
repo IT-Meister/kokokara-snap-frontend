@@ -10,7 +10,7 @@ import MapPhotoDetailsPanel from "./MapPhotoDetailsPanel";
 const MAPBOX_TOKEN =
   "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ";
 
-const MapComponent: React.FC = () => {
+export default function MapComponent () {
   // Initialize with null instead of leaving it undefined
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -172,5 +172,3 @@ const MapComponent: React.FC = () => {
     </div>
   );
 };
-
-export default MapComponent;
