@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 
-import mapboxgl, { LngLatLike } from "mapbox-gl";
-import { SearchBox } from "@mapbox/search-js-react";
+import mapboxgl, {LngLatLike} from "mapbox-gl";
+import {SearchBox} from "@mapbox/search-js-react";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import MapSidebar from "./MapSidebar";
