@@ -1,7 +1,5 @@
-import PostPage from "@/views/PostPage";
+import PostImageUploadPage from "@/views/PostImageUpload";
 
 export default function Page() {
-    return (
-        <PostPage />
-    )
+  return <PostImageUploadPage />;
 }
