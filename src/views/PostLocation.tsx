@@ -20,7 +20,7 @@ const MapboxExample = () => {
 
   const router = useRouter();
   const handlexNextClick = () => {
-    router.push("/");
+    router.push("/post/details");
   };
 
   const MAPBOX_TOKEN =

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useCallback, useState } from "react";
 
@@ -21,7 +21,7 @@ import { useDropzone } from "react-dropzone";
 
 import Header from "@/components/Header";
 
-export default function PostPage() {
+export default function PostDetails() {
   const [board, setBoard] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
@@ -51,33 +51,10 @@ export default function PostPage() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <Box sx={{ backgroundColor: "#fff", height: "100vh" }}>
+    <Box sx={{ backgroundColor: "#fff", height: "100vh", width: "100%" }}>
       <Header />
       {/* Main Content */}
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
-        {/* Save/Publish Button */}
-        <Box
-          className="Publish Button"
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            mb: 4,
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#e60023",
-              color: "#fff",
-              padding: "8px 24px",
-              fontSize: "16px",
-              fontWeight: "bold",
-            }}
-            onClick={handlePostClick}
-          >
-            公開する
-          </Button>
-        </Box>
+      <Container maxWidth="lg" sx={{ mt: 10 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
             {/* drag & drop Box */}
@@ -187,7 +164,30 @@ export default function PostPage() {
             </Collapse>
           </Grid>
         </Grid>
+        {/* Save/Publish Button */}
+        <Box
+          className="Publish Button"
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mb: 4,
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#e60023",
+              color: "#fff",
+              padding: "8px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+            }}
+            onClick={handlePostClick}
+          >
+            公開する
+          </Button>
+        </Box>
       </Container>
     </Box>
   );
-};
+}
