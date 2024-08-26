@@ -43,13 +43,6 @@ export default function PostDetails() {
     // Publish button click action
   };
 
-  // for drag & drop
-  const onDrop = useCallback((acceptedFiles: any) => {
-    // Do something with the files
-    console.log("acceptedFiles:", acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
   return (
     <Box sx={{ backgroundColor: "#fff", height: "100vh", width: "100%" }}>
       <Header />
@@ -57,40 +50,31 @@ export default function PostDetails() {
       <Container maxWidth="lg" sx={{ mt: 10 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
-            {/* drag & drop Box */}
-            <div
-              {...getRootProps()}
-              style={{
+            {/* Image preview */}
+            <Paper
+              variant="outlined"
+              sx={{
                 width: "100%",
+                paddingTop: "150%",
+                position: "relative",
+                borderRadius: "16px",
+                overflow: "hidden",
+                transition: "border 0.1 s ease",
               }}
             >
-              <input {...getInputProps()} />
-              <Paper
-                variant="outlined"
-                sx={{
+              <img
+                src="https://via.placeholder.com/300x400"
+                alt="Preview"
+                style={{
                   width: "100%",
-                  paddingTop: "150%",
-                  position: "relative",
-                  borderRadius: "16px",
-                  overflow: "hidden",
-                  border: isDragActive ? "3px solid #e60023" : "1px solid #ddd",
-                  transition: "border 0.1 s ease",
+                  height: "100%",
+                  objectFit: "cover",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
                 }}
-              >
-                <img
-                  src="https://via.placeholder.com/300x400"
-                  alt="Preview"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                  }}
-                />
-              </Paper>
-            </div>
+              />
+            </Paper>
           </Grid>
           <Grid item xs={12} sm={8}>
             <TextField
