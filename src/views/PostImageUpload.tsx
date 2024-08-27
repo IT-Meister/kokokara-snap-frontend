@@ -11,26 +11,22 @@ import Header from "@/components/Header";
 export default function PostImageUploadPage() {
   const router = useRouter();
   // const [image, setImage] = useState(null);
-  const [image, setImage] = useState<string | null>(null);
+  const [imagePath, setImagePath] = useState<string | null>(null);
 
   // for drag & drop
   const onDrop = useCallback((acceptedFiles: any) => {
     const file = acceptedFiles[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string); // Store the base64 string of the image and update the preview
-      };
-      reader.readAsDataURL(file);
+      const objectUrl = URL.createObjectURL(file);
+      setImagePath(objectUrl);
     }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleNextClick = () => {
-    if (image) {
-      const encodedImage = encodeURIComponent(image);
-      router.push(`/post/location?image=${encodedImage}`);
+    if (imagePath) {
+      router.push(`/post/location?imagePath=${encodeURIComponent(imagePath)}`);
     } else {
       alert("Please upload an image first.");
     }
@@ -72,7 +68,9 @@ export default function PostImageUploadPage() {
             }}
           >
             <img
-              src={image ? image : "https://via.placeholder.com/300x400"}
+              src={
+                imagePath ? imagePath : "https://via.placeholder.com/300x400"
+              }
               alt="Preview"
               style={{
                 width: "100%",

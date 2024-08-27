@@ -19,7 +19,7 @@ const MapboxExample = () => {
   const [inputValue, setInputValue] = useState("");
 
   const searchParams = useSearchParams();
-  const image = searchParams.get("image"); // Retrieve the image data from the query parameters
+  const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
 
   const router = useRouter();
   const handlexNextClick = () => {
@@ -96,7 +96,8 @@ const MapboxExample = () => {
         }}
       >
         <img
-          src={decodeURIComponent(image!)}
+          src={decodeURIComponent(imagePath!)}
+          // src={imagePath!}
           alt="Preview"
           style={{
             width: "100%",
