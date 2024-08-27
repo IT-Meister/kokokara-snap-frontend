@@ -11,18 +11,43 @@ import { Box, Button, Paper } from "@mui/material";
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(undefined);
+  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
+    undefined
+  );
   const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const router = useRouter();
   const searchParams = useSearchParams();
-
   const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
 
-  const handlexNextClick = () => {
-    router.push("/post/details");
+  const [mapSnapshotUrl, setMapSnapshotUrl] = useState<string | null>(null);
+
+  const captureScreenshot = () => {
+    if (!mapRef.current) return;
+    const canvas = mapRef.current.getCanvas();
+
+    canvas.toBlob((blob) => {
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        setMapSnapshotUrl(url); // Set the Object URL as the map snapshot path
+      }
+    }, "image/png");
+  };
+
+  const router = useRouter();
+  const handleNextClick = () => {
+    captureScreenshot();
+    if (imagePath && mapSnapshotUrl) {
+      // Here, we pass the Object URL via router push
+      router.push(
+        `/post/details?imagePath=${imagePath}&mapSnapshotUrl=${encodeURIComponent(
+          mapSnapshotUrl
+        )}`
+      );
+    } else {
+      alert("Please select an image and capture a map screenshot");
+    }
   };
 
   useEffect(() => {
@@ -178,7 +203,7 @@ export default function MapboxExample() {
               fontSize: "16px",
               fontWeight: "bold",
             }}
-            onClick={handlexNextClick}
+            onClick={handleNextClick}
           >
             次へ
           </Button>
@@ -186,4 +211,4 @@ export default function MapboxExample() {
       </div>
     </div>
   );
-};
+}
