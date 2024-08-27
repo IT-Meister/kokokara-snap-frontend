@@ -9,6 +9,7 @@ import { SearchBox } from "@mapbox/search-js-react";
 import { Box, Button, Paper } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import BackButton from "@/components/common/backButton";
 
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
@@ -91,27 +92,7 @@ export default function MapboxExample() {
           gap: 2, // Space between items
         }}
       >
-        <Button
-          variant="contained"
-          startIcon={<NavigateBeforeIcon />}
-          onClick={router.back}
-          sx={{
-            alignSelf: "flex-start", // Align the button to the left
-            backgroundColor: "#007bff",
-            margin: 2,
-            "&:hover": {
-              backgroundColor: "#0056b3",
-            },
-
-            color: "#fff",
-            padding: "8px 24px",
-            fontSize: "16px",
-            fontWeight: "bold",
-          }}
-        >
-          戻る
-        </Button>
-
+        <BackButton /> {/* Using the reusable BackButton */}
         <Paper
           variant="outlined"
           sx={{
