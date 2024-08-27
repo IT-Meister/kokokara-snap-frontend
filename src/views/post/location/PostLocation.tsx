@@ -21,7 +21,7 @@ export default function MapboxExample() {
   const searchParams = useSearchParams();
   const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
 
-  const [mapSnapshotUrl, setMapSnapshotUrl] = useState<string | null>(null);
+  const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
 
   const captureScreenshot = () => {
     if (!mapRef.current) return;
@@ -30,7 +30,7 @@ export default function MapboxExample() {
     canvas.toBlob((blob) => {
       if (blob) {
         const url = URL.createObjectURL(blob);
-        setMapSnapshotUrl(url); // Set the Object URL as the map snapshot path
+        setMapSnapshotPath(url); // Set the Object URL as the map snapshot path
       }
     }, "image/png");
   };
@@ -38,11 +38,11 @@ export default function MapboxExample() {
   const router = useRouter();
   const handleNextClick = () => {
     captureScreenshot();
-    if (imagePath && mapSnapshotUrl) {
+    if (imagePath && mapSnapshotPath) {
       // Here, we pass the Object URL via router push
       router.push(
-        `/post/details?imagePath=${imagePath}&mapSnapshotUrl=${encodeURIComponent(
-          mapSnapshotUrl
+        `/post/details?imagePath=${imagePath}&mapSnapshotPath=${encodeURIComponent(
+          mapSnapshotPath
         )}`
       );
     } else {

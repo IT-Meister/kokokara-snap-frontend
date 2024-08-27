@@ -32,7 +32,7 @@ export default function PostDetails() {
 
   const searchParams = useSearchParams();
   const imagePath = searchParams.get("imagePath");
-  const mapSnapshotUrl = searchParams.get("mapSnapshotUrl");
+  const mapSnapshotPath = searchParams.get("mapSnapshotPath");
 
   const router = useRouter();
 
@@ -93,7 +93,7 @@ export default function PostDetails() {
               }}
             >
               <img
-                src={decodeURIComponent(mapSnapshotUrl!)}
+                src={decodeURIComponent(mapSnapshotPath!)}
                 alt="Preview"
                 style={{
                   width: "100%",
