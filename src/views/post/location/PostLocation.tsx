@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, {useEffect, useRef, useState} from "react";
+import {useRouter, useSearchParams} from "next/navigation";
 
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl, { MapMouseEvent } from "mapbox-gl";
-import { SearchBox } from "@mapbox/search-js-react";
-import { Box, Button, Paper } from "@mui/material";
+import mapboxgl, {MapMouseEvent} from "mapbox-gl";
+import {SearchBox} from "@mapbox/search-js-react";
+import {Box, Button, Paper} from "@mui/material";
 
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
@@ -68,7 +68,7 @@ export default function MapboxExample() {
     });
 
     mapRef.current.on("click", (e) => {
-      const { lng, lat } = e.lngLat;
+      const {lng, lat} = e.lngLat;
 
       if (markerRef.current) {
         // If marker already exists, update its position
@@ -77,13 +77,13 @@ export default function MapboxExample() {
       } else {
         // Create a new marker and set it at the click position
         const newMarker = new mapboxgl.Marker()
-          .setLngLat([lng, lat])
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }).setText(
-              `Lat: ${lat}, Lng: ${lng}`
-            )
+        .setLngLat([lng, lat])
+        .setPopup(
+          new mapboxgl.Popup({offset: 25}).setText(
+            `Lat: ${lat}, Lng: ${lng}`
           )
-          .addTo(mapRef.current!);
+        )
+        .addTo(mapRef.current!);
 
         markerRef.current = newMarker; // Store marker in ref
       }
@@ -179,7 +179,7 @@ export default function MapboxExample() {
         >
           {moveEvent && (
             <>
-              <br />
+              <br/>
               {JSON.stringify(moveEvent.lngLat.wrap())}
             </>
           )}
