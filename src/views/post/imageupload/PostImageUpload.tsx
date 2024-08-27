@@ -11,7 +11,6 @@ import Header from "@/components/Header";
 export default function PostImageUploadPage() {
   const router = useRouter();
   const [imagePath, setImagePath] = useState<string | null>(null);
-  // const [image, setImage] = useState(null);
 
   // for drag & drop
   const onDrop = useCallback((acceptedFiles: any) => {
