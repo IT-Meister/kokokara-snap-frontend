@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, {useState} from "react";
 import {useRouter} from "next/navigation";
@@ -11,11 +11,13 @@ import {
   Menu,
   MenuItem,
   Box,
+  Button,
 } from "@mui/material";
 
 import SearchBar from "./SearchBar"; // Import the SearchBar component
 
-export default function Headeraa () {
+export default function Headeraa() {
+  const [activeButton, setActiveButton] = useState<string>("home");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const router = useRouter();
 
@@ -38,7 +40,13 @@ export default function Headeraa () {
   };
 
   const handleLogoClick = () => {
+    setActiveButton("home");
     router.push("/");
+  };
+
+  const handlePostClick = () => {
+    setActiveButton("post");
+    router.push("/post/imageupload"); // Adjust the route as needed
   };
 
   return (
@@ -50,32 +58,65 @@ export default function Headeraa () {
           padding: "0 16px",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-          <IconButton
-            onClick={handleLogoClick}
-            edge="start"
-            sx={{ padding: 0 }}
-          >
+        <Box sx={{display: "flex", alignItems: "center", flexGrow: 1}}>
+          <IconButton onClick={handleLogoClick} edge="start" sx={{padding: 0}}>
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png"
               alt="Pinterest Logo"
-              style={{ height: 50 }}
+              style={{height: 50}}
             />
           </IconButton>
-          <Box sx={{ flexGrow: 1, ml: 2 }}>
+          {/* ホーム Button */}
+          <Button
+            sx={{
+              marginLeft: 2,
+              fontWeight: "bold",
+              color: activeButton === "home" ? "white" : "black",
+              backgroundColor:
+                activeButton === "home" ? "black" : "transparent",
+              padding: "8px 20px",
+              borderRadius: "24px",
+              "&:hover": {
+                backgroundColor: activeButton === "home" ? "#333" : "#e0e0e0",
+              },
+            }}
+            onClick={handleLogoClick}
+          >
+            ホーム
+          </Button>
+          {/* 投稿する Button */}
+          <Button
+            sx={{
+              marginLeft: 2,
+              fontWeight: "bold",
+              color: activeButton === "post" ? "white" : "black",
+              backgroundColor:
+                activeButton === "post" ? "black" : "transparent",
+              padding: "8px 20px",
+              borderRadius: "24px",
+              "&:hover": {
+                backgroundColor: activeButton === "post" ? "#333" : "#e0e0e0",
+              },
+            }}
+            onClick={handlePostClick}
+          >
+            投稿する
+          </Button>
+
+          <Box sx={{flexGrow: 1, ml: 2}}>
             <SearchBar /> {/* Insert the SearchBar here */}
           </Box>
         </Box>
         <IconButton
           onClick={handleMenuOpen}
           edge="end"
-          sx={{ height: 60, marginLeft: 2 }}
+          sx={{height: 60, marginLeft: 2}}
         >
           {" "}
           {/* Adjust the size here */}
           <Avatar
             src="https://via.placeholder.com/50"
-            sx={{ width: "100%", height: "100%" }}
+            sx={{width: "100%", height: "100%"}}
           />
         </IconButton>
         <Menu
@@ -97,4 +138,4 @@ export default function Headeraa () {
       </Toolbar>
     </AppBar>
   );
-};
+}
