@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, {useState} from "react";
+import {useRouter, useSearchParams} from "next/navigation";
 
 import {
   Typography,
@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import Header from "@/components/Header";
+import Layout from "@/views/Layout";
 
 export default function PostDetails() {
   // for user inputs
@@ -50,163 +50,164 @@ export default function PostDetails() {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#fff", height: "100vh", width: "100%" }}>
-      <Header />
-      {/* Main Content */}
-      <Container maxWidth="lg" sx={{ mt: 10 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
-            {/* Image preview */}
-            <Paper
-              variant="outlined"
-              sx={{
-                width: "100%",
-                paddingTop: "100%",
-                position: "relative",
-                borderRadius: "16px",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                src={decodeURIComponent(imagePath!)}
-                alt="Preview"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-              />
-            </Paper>
-
-            <Paper
-              variant="outlined"
-              sx={{
-                width: "100%",
-                paddingTop: "50%",
-                position: "relative",
-                borderRadius: "16px",
-                overflow: "hidden",
-                mt: 1,
-              }}
-            >
-              <img
-                src={decodeURIComponent(mapSnapshotPath!)}
-                alt="Preview"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-              />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={8}>
-            <Box
-              component="form"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                label="タイトル"
-                placeholder="タイトルを追加する"
+    <Layout>
+      <Box sx={{backgroundColor: "#fff", height: "100vh", width: "100%"}}>
+        {/* Main Content */}
+        <Container maxWidth="lg" sx={{mt: 10}}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+              {/* Image preview */}
+              <Paper
                 variant="outlined"
-                fullWidth
-                sx={{ mb: 2 }}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required={true}
-              />
-              <TextField
-                label="説明文"
-                placeholder="詳しい説明文を追加する"
-                variant="outlined"
-                fullWidth
-                multiline
-                rows={4}
-                sx={{ mb: 2 }}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required={true}
-              />
-              <TextField
-                label="リンク"
-                placeholder="リンクを追加する"
-                variant="outlined"
-                fullWidth
-                sx={{ mb: 2 }}
-                value={link}
-                onChange={(e) => setLink(e.target.value)}
-                required={true}
-              />
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <Select
-                  value={board}
-                  onChange={handleBoardChange}
-                  displayEmpty
-                  defaultValue=""
-                  required={true}
-                >
-                  <MenuItem value="">
-                    <em>ボードを選択する</em>
-                  </MenuItem>
-                  <MenuItem value={1}>ボードA</MenuItem>
-                  <MenuItem value={2}>ボードB</MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                label="タグを追加する"
-                placeholder="タグを追加する"
-                variant="outlined"
-                fullWidth
-                sx={{ mb: 2 }}
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-              />
-
-              {/* Additional Options */}
-              <Button
-                onClick={toggleMoreOptions}
-                endIcon={<ExpandMoreIcon />}
-                sx={{ color: "#000" }}
-              >
-                その他のオプション
-              </Button>
-              <Collapse in={showMoreOptions}>
-                {/* Additional options content goes here */}
-                <Typography variant="body2" sx={{ mt: 2 }}>
-                  Additional options content...
-                </Typography>
-              </Collapse>
-
-              {/* Save/Publish Button */}
-              <Button
-                variant="contained"
-                type="submit"
                 sx={{
-                  backgroundColor: "#e60023",
-                  color: "#fff",
-                  padding: "8px 24px",
-                  fontSize: "16px",
-                  fontWeight: "bold",
+                  width: "100%",
+                  paddingTop: "100%",
+                  position: "relative",
+                  borderRadius: "16px",
+                  overflow: "hidden",
                 }}
-                onClick={handlePostClick}
               >
-                公開する
-              </Button>
-            </Box>
+                <img
+                  src={decodeURIComponent(imagePath!)}
+                  alt="Preview"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+              </Paper>
+
+              <Paper
+                variant="outlined"
+                sx={{
+                  width: "100%",
+                  paddingTop: "50%",
+                  position: "relative",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  mt: 1,
+                }}
+              >
+                <img
+                  src={decodeURIComponent(mapSnapshotPath!)}
+                  alt="Preview"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <Box
+                component="form"
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <TextField
+                  label="タイトル"
+                  placeholder="タイトルを追加する"
+                  variant="outlined"
+                  fullWidth
+                  sx={{mb: 2}}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required={true}
+                />
+                <TextField
+                  label="説明文"
+                  placeholder="詳しい説明文を追加する"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  sx={{mb: 2}}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required={true}
+                />
+                <TextField
+                  label="リンク"
+                  placeholder="リンクを追加する"
+                  variant="outlined"
+                  fullWidth
+                  sx={{mb: 2}}
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  required={true}
+                />
+                <FormControl fullWidth sx={{mb: 2}}>
+                  <Select
+                    value={board}
+                    onChange={handleBoardChange}
+                    displayEmpty
+                    defaultValue=""
+                    required={true}
+                  >
+                    <MenuItem value="">
+                      <em>ボードを選択する</em>
+                    </MenuItem>
+                    <MenuItem value={1}>ボードA</MenuItem>
+                    <MenuItem value={2}>ボードB</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  label="タグを追加する"
+                  placeholder="タグを追加する"
+                  variant="outlined"
+                  fullWidth
+                  sx={{mb: 2}}
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                />
+
+                {/* Additional Options */}
+                <Button
+                  onClick={toggleMoreOptions}
+                  endIcon={<ExpandMoreIcon/>}
+                  sx={{color: "#000"}}
+                >
+                  その他のオプション
+                </Button>
+                <Collapse in={showMoreOptions}>
+                  {/* Additional options content goes here */}
+                  <Typography variant="body2" sx={{mt: 2}}>
+                    Additional options content...
+                  </Typography>
+                </Collapse>
+
+                {/* Save/Publish Button */}
+                <Button
+                  variant="contained"
+                  type="submit"
+                  sx={{
+                    backgroundColor: "#e60023",
+                    color: "#fff",
+                    padding: "8px 24px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                  }}
+                  onClick={handlePostClick}
+                >
+                  公開する
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+    </Layout>
   );
 }
