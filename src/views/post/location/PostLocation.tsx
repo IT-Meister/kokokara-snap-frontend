@@ -7,11 +7,15 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl, { MapMouseEvent } from "mapbox-gl";
 import { SearchBox } from "@mapbox/search-js-react";
 import { Box, Button, Paper } from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(undefined);
+  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
+    undefined
+  );
   const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -79,32 +83,61 @@ export default function MapboxExample() {
         alignItems: "center", // Center vertically
       }}
     >
-      <Paper // Image preview on the left side
-        variant="outlined"
+      <Box
         sx={{
-          width: 800,
-          position: "relative",
-          borderRadius: "16px",
-          overflow: "hidden",
           display: "flex",
-          backgroundColor: "#fafafa",
-          margin: "10px", // Add margin to the Paper component
+          flexDirection: "column", // Stack items vertically
+          alignItems: "center", // Center items horizontally
+          gap: 2, // Space between items
         }}
       >
-        <img
-          src={decodeURIComponent(imagePath!)}
-          // src={imagePath!}
-          alt="Preview"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
-      </Paper>
+        <Button
+          variant="contained"
+          startIcon={<NavigateBeforeIcon />}
+          onClick={router.back}
+          sx={{
+            alignSelf: "flex-start", // Align the button to the left
+            backgroundColor: "#007bff",
+            margin: 2,
+            "&:hover": {
+              backgroundColor: "#0056b3",
+            },
 
-      <div
-        style={{
+            color: "#fff",
+            padding: "8px 24px",
+            fontSize: "16px",
+            fontWeight: "bold",
+          }}
+        >
+          戻る
+        </Button>
+
+        <Paper
+          variant="outlined"
+          sx={{
+            width: 600,
+            height: 800,
+            position: "relative",
+            borderRadius: "16px",
+            overflow: "hidden",
+            display: "flex",
+            backgroundColor: "#fafafa",
+            margin: "10px", // Add margin to the Paper component
+          }}
+        >
+          <img
+            src={decodeURIComponent(imagePath!)}
+            alt="Preview"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </Paper>
+      </Box>
+      <Box
+        sx={{
           position: "relative",
           width: "100%",
           height: "100%",
@@ -112,65 +145,22 @@ export default function MapboxExample() {
           justifyContent: "center", // Center horizontally
           alignItems: "center", // Center vertically
           flexDirection: "column", // Stack items vertically
-          margin: "10px", // Add margin to the container div
+          margin: "10px", // Add margin to the container
         }}
       >
-        {mapLoaded && (
-          <SearchBox
-            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
-            map={mapRef.current!} // Safe because of mapLoaded check
-            mapboxgl={mapboxgl}
-            value={inputValue}
-            onChange={(d) => {
-              setInputValue(d);
-            }}
-            marker={false}
-          />
-        )}
-        <div
-          id="map"
-          ref={mapContainerRef}
-          style={{
-            width: "100%", // Set map width
-            height: "100%", // Set map height
-            position: "relative", // Keep position relative to handle overlays
-            margin: "10px", // Add margin to the map container
-          }}
-        ></div>
-        <pre
-          id="info"
-          style={{
-            display: "table",
-            position: "relative",
-            margin: "10px", // Add margin to the pre element
-            whiteSpace: "pre-wrap",
-            padding: "10px",
-            border: "none",
-            borderRadius: "3px",
-            fontSize: "12px",
-            textAlign: "center",
-            color: "#222",
-            background: "#fff",
-          }}
-        >
-          {moveEvent && (
-            <>
-              <br />
-              {JSON.stringify(moveEvent.lngLat.wrap())}
-            </>
-          )}
-        </pre>
         {/* Next Button */}
         <Box
           className="Next Button"
           sx={{
             display: "flex",
+            alignSelf: "flex-end",
             mt: 2,
             mb: 2,
           }}
         >
           <Button
             variant="contained"
+            endIcon={<NavigateNextIcon />}
             sx={{
               backgroundColor: "#e60023",
               color: "#fff",
@@ -183,7 +173,55 @@ export default function MapboxExample() {
             次へ
           </Button>
         </Box>
-      </div>
+        {mapLoaded && (
+          <SearchBox
+            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
+            map={mapRef.current!} // Safe because of mapLoaded check
+            mapboxgl={mapboxgl}
+            value={inputValue}
+            onChange={(d) => {
+              setInputValue(d);
+            }}
+            marker={false}
+          />
+        )}
+
+        <Box
+          id="map"
+          ref={mapContainerRef}
+          sx={{
+            width: "100%", // Set map width
+            height: "100%", // Set map height
+            position: "relative", // Keep position relative to handle overlays
+            margin: "10px", // Add margin to the map container
+          }}
+        ></Box>
+
+        <Box
+          component="pre"
+          id="info"
+          sx={{
+            display: "table",
+            position: "relative",
+            margin: "10px", // Add margin to the pre element
+            whiteSpace: "pre-wrap",
+            padding: "10px",
+            border: "none",
+            borderRadius: "3px",
+            fontSize: "12px",
+            textAlign: "center",
+            color: "#222",
+            backgroundColor: "#fff",
+          }}
+        >
+          {moveEvent && (
+            <>
+              <br />
+              {JSON.stringify(moveEvent.lngLat.wrap())}
+            </>
+          )}
+        </Box>
+      </Box>
     </div>
   );
-};
+}
