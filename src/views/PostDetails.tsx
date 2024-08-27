@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Typography,
@@ -17,7 +18,6 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useRouter } from "next/navigation";
 
 import Header from "@/components/Header";
 
@@ -30,6 +30,8 @@ export default function PostDetails() {
   const [board, setBoard] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
+  const router = useRouter();
+
   const handleBoardChange = (event: SelectChangeEvent) => {
     setBoard(event.target.value as string);
   };
@@ -38,7 +40,6 @@ export default function PostDetails() {
     setShowMoreOptions(!showMoreOptions);
   };
 
-  const router = useRouter();
   const handlePostClick = () => {
     // Publish button click action
     router.push("/post/details");
