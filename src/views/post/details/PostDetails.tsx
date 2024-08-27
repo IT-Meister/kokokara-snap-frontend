@@ -30,11 +30,11 @@ export default function PostDetails() {
   const [board, setBoard] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
+  const router = useRouter();
   const searchParams = useSearchParams();
+
   const imagePath = searchParams.get("imagePath");
   const mapSnapshotPath = searchParams.get("mapSnapshotPath");
-
-  const router = useRouter();
 
   const handleBoardChange = (event: SelectChangeEvent) => {
     setBoard(event.target.value as string);

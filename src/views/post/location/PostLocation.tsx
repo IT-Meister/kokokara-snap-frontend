@@ -11,6 +11,7 @@ import { Box, Button, Paper } from "@mui/material";
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
   const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
     undefined
   );
@@ -20,8 +21,6 @@ export default function MapboxExample() {
 
   const searchParams = useSearchParams();
   const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
-
-  const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
 
   const captureScreenshot = () => {
     if (!mapRef.current) return;
