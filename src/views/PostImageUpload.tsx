@@ -1,25 +1,35 @@
-'use client'
+"use client";
 
-import React, {useCallback, useState} from "react";
-import {useRouter} from "next/navigation";
+import React, { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 
-import {Box, Paper, Button} from "@mui/material";
-import {useDropzone} from "react-dropzone";
+import { Box, Paper, Button } from "@mui/material";
+import { useDropzone } from "react-dropzone";
 
 import Header from "@/components/Header";
 
 export default function PostImageUploadPage() {
   const router = useRouter();
+  const [imagePath, setImagePath] = useState<string | null>(null);
+  // const [image, setImage] = useState(null);
 
   // for drag & drop
   const onDrop = useCallback((acceptedFiles: any) => {
-    // Do something with the files
-    console.log("acceptedFiles:", acceptedFiles);
+    const file = acceptedFiles[0];
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setImagePath(objectUrl);
+    }
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handlexNextClick = () => {
-    router.push("/post/location");
+  const handleNextClick = () => {
+    if (imagePath) {
+      router.push(`/post/location?imagePath=${encodeURIComponent(imagePath)}`);
+    } else {
+      alert("Please upload an image first.");
+    }
   };
 
   return (
@@ -58,7 +68,9 @@ export default function PostImageUploadPage() {
             }}
           >
             <img
-              src="https://via.placeholder.com/300x400"
+              src={
+                imagePath ? imagePath : "https://via.placeholder.com/300x400"
+              }
               alt="Preview"
               style={{
                 width: "100%",
@@ -89,7 +101,7 @@ export default function PostImageUploadPage() {
               fontSize: "16px",
               fontWeight: "bold",
             }}
-            onClick={handlexNextClick}
+            onClick={handleNextClick}
           >
             次へ
           </Button>
@@ -97,4 +109,4 @@ export default function PostImageUploadPage() {
       </Box>
     </Box>
   );
-};
+}
