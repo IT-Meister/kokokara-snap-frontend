@@ -25,11 +25,8 @@ export default function MapboxExample() {
     router.push("/post/details");
   };
 
-  const MAPBOX_TOKEN =
-    "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ";
-
   useEffect(() => {
-    mapboxgl.accessToken = MAPBOX_TOKEN;
+    mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
 
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current!,
@@ -120,7 +117,7 @@ export default function MapboxExample() {
       >
         {mapLoaded && (
           <SearchBox
-            accessToken={MAPBOX_TOKEN}
+            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
             map={mapRef.current!} // Safe because of mapLoaded check
             mapboxgl={mapboxgl}
             value={inputValue}
