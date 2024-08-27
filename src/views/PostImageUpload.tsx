@@ -1,25 +1,39 @@
-'use client'
+"use client";
 
-import React, {useCallback, useState} from "react";
-import {useRouter} from "next/navigation";
+import React, { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 
-import {Box, Paper, Button} from "@mui/material";
-import {useDropzone} from "react-dropzone";
+import { Box, Paper, Button } from "@mui/material";
+import { useDropzone } from "react-dropzone";
 
 import Header from "@/components/Header";
 
 export default function PostImageUploadPage() {
   const router = useRouter();
+  // const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
 
   // for drag & drop
   const onDrop = useCallback((acceptedFiles: any) => {
-    // Do something with the files
-    console.log("acceptedFiles:", acceptedFiles);
+    const file = acceptedFiles[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result as string); // Store the base64 string of the image and update the preview
+      };
+      reader.readAsDataURL(file);
+    }
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handlexNextClick = () => {
-    router.push("/post/location");
+  const handleNextClick = () => {
+    if (image) {
+      const encodedImage = encodeURIComponent(image);
+      router.push(`/post/location?image=${encodedImage}`);
+    } else {
+      alert("Please upload an image first.");
+    }
   };
 
   return (
@@ -58,7 +72,7 @@ export default function PostImageUploadPage() {
             }}
           >
             <img
-              src="https://via.placeholder.com/300x400"
+              src={image ? image : "https://via.placeholder.com/300x400"}
               alt="Preview"
               style={{
                 width: "100%",
@@ -89,7 +103,7 @@ export default function PostImageUploadPage() {
               fontSize: "16px",
               fontWeight: "bold",
             }}
-            onClick={handlexNextClick}
+            onClick={handleNextClick}
           >
             次へ
           </Button>
@@ -97,4 +111,4 @@ export default function PostImageUploadPage() {
       </Box>
     </Box>
   );
-};
+}

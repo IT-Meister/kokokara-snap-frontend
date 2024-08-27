@@ -6,7 +6,7 @@ import mapboxgl, { MapMouseEvent } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { SearchBox } from "@mapbox/search-js-react";
 import { Box, Button, Paper } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const MapboxExample = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -17,6 +17,9 @@ const MapboxExample = () => {
   );
   const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
   const [inputValue, setInputValue] = useState("");
+
+  const searchParams = useSearchParams();
+  const image = searchParams.get("image"); // Retrieve the image data from the query parameters
 
   const router = useRouter();
   const handlexNextClick = () => {
@@ -93,7 +96,7 @@ const MapboxExample = () => {
         }}
       >
         <img
-          src="https://via.placeholder.com/400x300"
+          src={decodeURIComponent(image!)}
           alt="Preview"
           style={{
             width: "100%",
