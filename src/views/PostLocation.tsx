@@ -1,27 +1,26 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import mapboxgl, { MapMouseEvent } from "mapbox-gl";
-
-import "mapbox-gl/dist/mapbox-gl.css";
-import { SearchBox } from "@mapbox/search-js-react";
-import { Box, Button, Paper } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const MapboxExample = () => {
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
-    undefined
-  );
-  const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
-  const [inputValue, setInputValue] = useState("");
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl, { MapMouseEvent } from "mapbox-gl";
+import { SearchBox } from "@mapbox/search-js-react";
+import { Box, Button, Paper } from "@mui/material";
 
-  const searchParams = useSearchParams();
-  const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
+export default function MapboxExample() {
+  const [inputValue, setInputValue] = useState("");
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(undefined);
+  const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
+  const mapRef = useRef<mapboxgl.Map | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
+
   const handlexNextClick = () => {
     router.push("/post/details");
   };
@@ -191,5 +190,3 @@ const MapboxExample = () => {
     </div>
   );
 };
-
-export default MapboxExample;
