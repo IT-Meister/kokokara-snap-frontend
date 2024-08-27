@@ -1,4 +1,4 @@
-import MapPage from "@/views/MapPage";
+import MapPage from "@/views/map/MapPage";
 
 export default function Page() {
     return (
