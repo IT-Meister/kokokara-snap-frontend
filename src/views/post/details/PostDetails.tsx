@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   Typography,
@@ -30,6 +30,10 @@ export default function PostDetails() {
   const [board, setBoard] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
+  const searchParams = useSearchParams();
+  const imagePath = searchParams.get("imagePath");
+  const mapSnapshotUrl = searchParams.get("mapSnapshotUrl");
+
   const router = useRouter();
 
   const handleBoardChange = (event: SelectChangeEvent) => {
@@ -57,15 +61,39 @@ export default function PostDetails() {
               variant="outlined"
               sx={{
                 width: "100%",
-                paddingTop: "150%",
+                paddingTop: "100%",
                 position: "relative",
                 borderRadius: "16px",
                 overflow: "hidden",
-                transition: "border 0.1 s ease",
               }}
             >
               <img
-                src="https://via.placeholder.com/300x400"
+                src={decodeURIComponent(imagePath!)}
+                alt="Preview"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                }}
+              />
+            </Paper>
+
+            <Paper
+              variant="outlined"
+              sx={{
+                width: "100%",
+                paddingTop: "50%",
+                position: "relative",
+                borderRadius: "16px",
+                overflow: "hidden",
+                mt: 1,
+              }}
+            >
+              <img
+                src={decodeURIComponent(mapSnapshotUrl!)}
                 alt="Preview"
                 style={{
                   width: "100%",
