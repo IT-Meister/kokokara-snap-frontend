@@ -6,7 +6,9 @@ import {useRouter, useSearchParams} from "next/navigation";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl, {MapMouseEvent} from "mapbox-gl";
 import {SearchBox} from "@mapbox/search-js-react";
-import {Box, Button, Paper} from "@mui/material";
+import {Box, Button, IconButton, Paper} from "@mui/material";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import RotateRightIcon from "@mui/icons-material/RotateRight";
 
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
@@ -112,7 +114,7 @@ export default function MapboxExample() {
       style={{
         display: "flex", // Use Flexbox to create a two-column layout
         width: "100%",
-        height: "100vh",
+        height: "90vh",
         alignItems: "center", // Center vertically
       }}
     >
@@ -130,7 +132,6 @@ export default function MapboxExample() {
       >
         <img
           src={decodeURIComponent(imagePath!)}
-          // src={imagePath!}
           alt="Preview"
           style={{
             width: "100%",
@@ -149,21 +150,8 @@ export default function MapboxExample() {
           justifyContent: "center", // Center horizontally
           alignItems: "center", // Center vertically
           flexDirection: "column", // Stack items vertically
-          margin: "10px", // Add margin to the container div
         }}
       >
-        {mapLoaded && (
-          <SearchBox
-            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
-            map={mapRef.current!} // Safe because of mapLoaded check
-            mapboxgl={mapboxgl}
-            value={inputValue}
-            onChange={(d) => {
-              setInputValue(d);
-            }}
-            marker={false}
-          />
-        )}
         <div
           id="map"
           ref={mapContainerRef}
@@ -171,37 +159,68 @@ export default function MapboxExample() {
             width: "100%", // Set map width
             height: "100%", // Set map height
             position: "relative", // Keep position relative to handle overlays
-            margin: "10px", // Add margin to the map container
           }}
         ></div>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            zIndex: 1,
+          }}
+        >
+          {mapLoaded && (
+            <SearchBox
+              accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
+              map={mapRef.current!} // Safe because of mapLoaded check
+              mapboxgl={mapboxgl}
+              value={inputValue}
+              onChange={(d) => {
+                setInputValue(d);
+              }}
+              marker={false}
+            />
+          )}
+        </Box>
 
-        <Box sx={{display: "flex", gap: 2, mb: 2}}>
-          <Button
-            variant="contained"
+        {/* Rotate Buttons */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            position: "absolute", // Position it absolutely within the map container
+            bottom: "90px",
+            left: "50%",
+            transform: "translateX(-50%)", // Center horizontally
+            zIndex: 1,
+          }}
+        >
+          <IconButton
             onClick={() => handleRotationChange(-10)} // Rotate left
             sx={{
-              backgroundColor: "#e60023",
+              backgroundColor: "black",
               color: "#fff",
-              padding: "8px 24px",
-              fontSize: "16px",
-              fontWeight: "bold",
+              padding: "8px",
+              "&:hover": {
+                backgroundColor: "darkgrey",
+              },
             }}
           >
-            Rotate Left
-          </Button>
-          <Button
-            variant="contained"
+            <RotateLeftIcon />
+          </IconButton>
+          <IconButton
             onClick={() => handleRotationChange(10)} // Rotate right
             sx={{
-              backgroundColor: "#e60023",
+              backgroundColor: "black",
               color: "#fff",
-              padding: "8px 24px",
-              fontSize: "16px",
-              fontWeight: "bold",
+              padding: "8px",
+              "&:hover": {
+                backgroundColor: "darkgrey",
+              },
             }}
           >
-            Rotate Right
-          </Button>
+            <RotateRightIcon />
+          </IconButton>
         </Box>
         {/* Next Button */}
         <Box
