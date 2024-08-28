@@ -77,13 +77,11 @@ export default function MapboxExample() {
       } else {
         // Create a new marker and set it at the click position
         const newMarker = new mapboxgl.Marker()
-        .setLngLat([lng, lat])
-        .setPopup(
-          new mapboxgl.Popup({offset: 25}).setText(
-            `Lat: ${lat}, Lng: ${lng}`
+          .setLngLat([lng, lat])
+          .setPopup(
+            new mapboxgl.Popup({offset: 25}).setText(`Lat: ${lat}, Lng: ${lng}`)
           )
-        )
-        .addTo(mapRef.current!);
+          .addTo(mapRef.current!);
 
         markerRef.current = newMarker; // Store marker in ref
       }
@@ -179,7 +177,7 @@ export default function MapboxExample() {
         >
           {moveEvent && (
             <>
-              <br/>
+              <br />
               {JSON.stringify(moveEvent.lngLat.wrap())}
             </>
           )}

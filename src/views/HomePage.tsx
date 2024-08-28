@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, {useState} from "react";
 
 import {
   Box,
@@ -7,10 +9,25 @@ import {
   Paper,
   InputBase,
   IconButton,
+  Card,
+  CardMedia,
 } from "@mui/material";
 import {Search as SearchIcon} from "@mui/icons-material";
 
+import HomePhotoModal from "@/components/HomePhotoModal";
+import mockPosts, {Post} from "../../public/mockPosts";
+
 export default function HomePage() {
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+
+  const handleOpenModal = (post: Post) => {
+    setSelectedPost(post);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPost(null);
+  };
+
   return (
     <Container maxWidth="lg">
       <Box
@@ -41,11 +58,26 @@ export default function HomePage() {
             inputProps={{"aria-label": "search"}}
           />
           <IconButton type="submit" sx={{p: "10px"}} aria-label="search">
-            <SearchIcon/>
+            <SearchIcon />
           </IconButton>
         </Paper>
       </Box>
-      <Grid container spacing={3} sx={{marginTop: 3}}>
+
+      {/* post showcase */}
+      <Grid container spacing={3} sx={{mt: 4}}>
+        {mockPosts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} key={post.id}>
+            <Card
+              onClick={() => handleOpenModal(post)}
+              sx={{cursor: "pointer", borderRadius: 8, boxShadow: 1}}
+            >
+              <CardMedia component="img" height="200" image={post.url} />
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* <Grid container spacing={3} c>
         {[...Array(9)].map((_, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Box
@@ -58,7 +90,13 @@ export default function HomePage() {
             />
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
+      {/* Use the HomePostModal component */}
+      <HomePhotoModal
+        open={!!selectedPost}
+        post={selectedPost}
+        onClose={handleCloseModal}
+      />
     </Container>
   );
 }
