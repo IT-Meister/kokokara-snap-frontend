@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 
@@ -15,7 +15,7 @@ export default function MapPage() {
       }}
     >
       {/* Map Component */}
-      <MapComponent />
+      <MapComponent/>
     </div>
   );
-};
+}

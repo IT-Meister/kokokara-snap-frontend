@@ -1,19 +1,22 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, {useEffect, useRef, useState} from "react";
+import {useRouter, useSearchParams} from "next/navigation";
 
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl, { MapMouseEvent } from "mapbox-gl";
-import { SearchBox } from "@mapbox/search-js-react";
-import { Box, Button, Paper } from "@mui/material";
+import mapboxgl, {MapMouseEvent} from "mapbox-gl";
+import {SearchBox} from "@mapbox/search-js-react";
+import {Box, Button, Paper} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+
 import BackButton from "@/components/common/backButton";
+
 
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
   const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
     undefined
   );
@@ -21,13 +24,34 @@ export default function MapboxExample() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const router = useRouter();
   const searchParams = useSearchParams();
-
   const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
 
-  const handlexNextClick = () => {
-    router.push("/post/details");
+  const captureScreenshot = () => {
+    if (!mapRef.current) return;
+    const canvas = mapRef.current.getCanvas();
+
+    canvas.toBlob((blob) => {
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        setMapSnapshotPath(url); // Set the Object URL as the map snapshot path
+      }
+    }, "image/png");
+  };
+
+  const router = useRouter();
+  const handleNextClick = () => {
+    captureScreenshot();
+    if (imagePath && mapSnapshotPath) {
+      // Here, we pass the Object URL via router push
+      router.push(
+        `/post/details?imagePath=${imagePath}&mapSnapshotPath=${encodeURIComponent(
+          mapSnapshotPath
+        )}`
+      );
+    } else {
+      alert("Please select an image and capture a map screenshot");
+    }
   };
 
   useEffect(() => {
@@ -49,7 +73,7 @@ export default function MapboxExample() {
     });
 
     mapRef.current.on("click", (e) => {
-      const { lng, lat } = e.lngLat;
+      const {lng, lat} = e.lngLat;
 
       if (markerRef.current) {
         // If marker already exists, update its position
@@ -58,13 +82,13 @@ export default function MapboxExample() {
       } else {
         // Create a new marker and set it at the click position
         const newMarker = new mapboxgl.Marker()
-          .setLngLat([lng, lat])
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }).setText(
-              `Lat: ${lat}, Lng: ${lng}`
-            )
+        .setLngLat([lng, lat])
+        .setPopup(
+          new mapboxgl.Popup({offset: 25}).setText(
+            `Lat: ${lat}, Lng: ${lng}`
           )
-          .addTo(mapRef.current!);
+        )
+        .addTo(mapRef.current!);
 
         markerRef.current = newMarker; // Store marker in ref
       }
@@ -197,10 +221,33 @@ export default function MapboxExample() {
         >
           {moveEvent && (
             <>
-              <br />
+              <br/>
               {JSON.stringify(moveEvent.lngLat.wrap())}
             </>
           )}
+        </pre>
+        {/* Next Button */}
+        <Box
+          className="Next Button"
+          sx={{
+            display: "flex",
+            mt: 2,
+            mb: 2,
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#e60023",
+              color: "#fff",
+              padding: "8px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+            }}
+            onClick={handleNextClick}
+          >
+            次へ
+          </Button>
         </Box>
       </Box>
     </div>

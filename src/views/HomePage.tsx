@@ -8,14 +8,11 @@ import {
   InputBase,
   IconButton,
 } from "@mui/material";
-import { Search as SearchIcon } from "@mui/icons-material";
-
-import Header from "@/components/Header";
+import {Search as SearchIcon} from "@mui/icons-material";
 
 export default function HomePage() {
   return (
     <Container maxWidth="lg">
-      <Header />
       <Box
         sx={{
           height: 300,
@@ -39,16 +36,16 @@ export default function HomePage() {
           }}
         >
           <InputBase
-            sx={{ ml: 1, flex: 1 }}
+            sx={{ml: 1, flex: 1}}
             placeholder="Search ..."
-            inputProps={{ "aria-label": "search" }}
+            inputProps={{"aria-label": "search"}}
           />
-          <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
-            <SearchIcon />
+          <IconButton type="submit" sx={{p: "10px"}} aria-label="search">
+            <SearchIcon/>
           </IconButton>
         </Paper>
       </Box>
-      <Grid container spacing={3} sx={{ marginTop: 3 }}>
+      <Grid container spacing={3} sx={{marginTop: 3}}>
         {[...Array(9)].map((_, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Box
@@ -64,4 +61,4 @@ export default function HomePage() {
       </Grid>
     </Container>
   );
-};
+}
