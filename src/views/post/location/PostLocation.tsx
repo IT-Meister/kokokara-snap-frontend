@@ -12,9 +12,8 @@ export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
-  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
-    undefined
-  );
+  const [markerRotation, setMarkerRotation] = useState(0); // State to keep track of marker rotation
+
   const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -49,6 +48,14 @@ export default function MapboxExample() {
     }
   };
 
+  const handleRotationChange = (change: number) => {
+    if (markerRef.current) {
+      const newRotation = markerRotation + change;
+      setMarkerRotation(newRotation);
+      markerRef.current.setRotation(newRotation);
+    }
+  };
+
   useEffect(() => {
     mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
 
@@ -59,13 +66,21 @@ export default function MapboxExample() {
       zoom: 9,
     });
 
-    mapRef.current.on("mousemove", (e) => {
-      setMoveEvent(e);
-    });
-
     mapRef.current.on("load", () => {
       setMapLoaded(true);
     });
+
+    // make a custom marker element
+    const el = document.createElement("div");
+    el.className = "custom-marker";
+
+    el.style.width = "50px";
+    el.style.height = "50px";
+    el.style.backgroundImage =
+      "url('/2559828_camera_media_network_social_icon.png')";
+    el.style.backgroundSize = "cover";
+    el.style.cursor = "pointer";
+    el.style.transformOrigin = "center";
 
     mapRef.current.on("click", (e) => {
       const {lng, lat} = e.lngLat;
@@ -76,14 +91,12 @@ export default function MapboxExample() {
         markerRef.current.getPopup()?.setText(`Lat: ${lat}, Lng: ${lng}`); // Update popup text
       } else {
         // Create a new marker and set it at the click position
-        const newMarker = new mapboxgl.Marker()
-        .setLngLat([lng, lat])
-        .setPopup(
-          new mapboxgl.Popup({offset: 25}).setText(
-            `Lat: ${lat}, Lng: ${lng}`
+        const newMarker = new mapboxgl.Marker(el)
+          .setLngLat([lng, lat])
+          .setPopup(
+            new mapboxgl.Popup({offset: 25}).setText(`Lat: ${lat}, Lng: ${lng}`)
           )
-        )
-        .addTo(mapRef.current!);
+          .addTo(mapRef.current!);
 
         markerRef.current = newMarker; // Store marker in ref
       }
@@ -161,29 +174,35 @@ export default function MapboxExample() {
             margin: "10px", // Add margin to the map container
           }}
         ></div>
-        <pre
-          id="info"
-          style={{
-            display: "table",
-            position: "relative",
-            margin: "10px", // Add margin to the pre element
-            whiteSpace: "pre-wrap",
-            padding: "10px",
-            border: "none",
-            borderRadius: "3px",
-            fontSize: "12px",
-            textAlign: "center",
-            color: "#222",
-            background: "#fff",
-          }}
-        >
-          {moveEvent && (
-            <>
-              <br/>
-              {JSON.stringify(moveEvent.lngLat.wrap())}
-            </>
-          )}
-        </pre>
+
+        <Box sx={{display: "flex", gap: 2, mb: 2}}>
+          <Button
+            variant="contained"
+            onClick={() => handleRotationChange(-10)} // Rotate left
+            sx={{
+              backgroundColor: "#e60023",
+              color: "#fff",
+              padding: "8px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+            }}
+          >
+            Rotate Left
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => handleRotationChange(10)} // Rotate right
+            sx={{
+              backgroundColor: "#e60023",
+              color: "#fff",
+              padding: "8px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+            }}
+          >
+            Rotate Right
+          </Button>
+        </Box>
         {/* Next Button */}
         <Box
           className="Next Button"
