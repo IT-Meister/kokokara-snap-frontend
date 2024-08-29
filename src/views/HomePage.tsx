@@ -77,20 +77,6 @@ export default function HomePage() {
         ))}
       </Grid>
 
-      {/* <Grid container spacing={3} c>
-        {[...Array(9)].map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Box
-              sx={{
-                width: "100%",
-                height: 150,
-                backgroundColor: "#dcdcdc",
-                borderRadius: 8,
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid> */}
       {/* Use the HomePostModal component */}
       <HomePhotoModal
         open={!!selectedPost}
