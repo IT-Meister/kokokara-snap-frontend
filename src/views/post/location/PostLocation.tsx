@@ -4,14 +4,20 @@ import React, {useEffect, useRef, useState} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
 
 import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl, { MapMouseEvent } from "mapbox-gl";
-import { SearchBox } from "@mapbox/search-js-react";
-import { Box, Button, Paper } from "@mui/material";
+import mapboxgl, {MapMouseEvent} from "mapbox-gl";
+import {SearchBox} from "@mapbox/search-js-react";
+import {Box, Button, Paper} from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import BackButton from "@/components/common/backButton";
 
 export default function MapboxExample() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(undefined);
+
+  const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
+  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
+    undefined
+  );
   const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -74,13 +80,11 @@ export default function MapboxExample() {
       } else {
         // Create a new marker and set it at the click position
         const newMarker = new mapboxgl.Marker()
-        .setLngLat([lng, lat])
-        .setPopup(
-          new mapboxgl.Popup({offset: 25}).setText(
-            `Lat: ${lat}, Lng: ${lng}`
+          .setLngLat([lng, lat])
+          .setPopup(
+            new mapboxgl.Popup({offset: 25}).setText(`Lat: ${lat}, Lng: ${lng}`)
           )
-        )
-        .addTo(mapRef.current!);
+          .addTo(mapRef.current!);
 
         markerRef.current = newMarker; // Store marker in ref
       }
@@ -165,7 +169,7 @@ export default function MapboxExample() {
               fontSize: "16px",
               fontWeight: "bold",
             }}
-            onClick={handlexNextClick}
+            onClick={handleNextClick}
           >
             次へ
           </Button>
@@ -213,33 +217,10 @@ export default function MapboxExample() {
         >
           {moveEvent && (
             <>
-              <br/>
+              <br />
               {JSON.stringify(moveEvent.lngLat.wrap())}
             </>
           )}
-        </pre>
-        {/* Next Button */}
-        <Box
-          className="Next Button"
-          sx={{
-            display: "flex",
-            mt: 2,
-            mb: 2,
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#e60023",
-              color: "#fff",
-              padding: "8px 24px",
-              fontSize: "16px",
-              fontWeight: "bold",
-            }}
-            onClick={handlexNextClick}
-          >
-            次へ
-          </Button>
         </Box>
       </Box>
     </div>
