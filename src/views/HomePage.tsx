@@ -41,7 +41,7 @@ export default function HomePage() {
             inputProps={{"aria-label": "search"}}
           />
           <IconButton type="submit" sx={{p: "10px"}} aria-label="search">
-            <SearchIcon/>
+            <SearchIcon />
           </IconButton>
         </Paper>
       </Box>
