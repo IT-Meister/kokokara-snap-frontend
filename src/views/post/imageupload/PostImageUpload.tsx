@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, {useCallback, useState} from "react";
+import {useRouter} from "next/navigation";
 
-import { Box, Paper, Button } from "@mui/material";
-import { useDropzone } from "react-dropzone";
-
-import Header from "@/components/Header";
+import {Box, Paper, Button} from "@mui/material";
+import {useDropzone} from "react-dropzone";
 
 export default function PostImageUploadPage() {
   const router = useRouter();
@@ -21,7 +19,7 @@ export default function PostImageUploadPage() {
     }
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
   const handleNextClick = () => {
     if (imagePath) {
@@ -32,10 +30,7 @@ export default function PostImageUploadPage() {
   };
 
   return (
-    <Box sx={{ height: "100vh", backgroundColor: "#f5f5f5" }}>
-      {/* Header component */}
-      <Header />
-
+    <Box sx={{height: "100vh", backgroundColor: "#f5f5f5"}}>
       {/* Container for centering the image */}
       <Box
         sx={{
@@ -48,7 +43,7 @@ export default function PostImageUploadPage() {
         }}
       >
         {/* Drag & drop box */}
-        <div {...getRootProps()} style={{ width: "100%", maxWidth: 800 }}>
+        <div {...getRootProps()} style={{width: "100%", maxWidth: 800}}>
           <input {...getInputProps()} />
           <Paper
             variant="outlined"

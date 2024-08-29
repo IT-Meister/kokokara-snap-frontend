@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, {useState} from "react";
 
 import {
   Container,
@@ -13,8 +13,6 @@ import {
   Grid,
 } from "@mui/material";
 
-import Header from "@/components/Header";
-
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("posts");
 
@@ -26,8 +24,7 @@ export default function ProfilePage() {
 
   return (
     <Container maxWidth="lg">
-      <Header />
-      <Box sx={{ mt: 3, textAlign: "center" }}>
+      <Box sx={{mt: 3, textAlign: "center"}}>
         <Box
           sx={{
             height: 300,
@@ -51,25 +48,25 @@ export default function ProfilePage() {
             margin: "0 auto",
           }}
         />
-        <Typography variant="h5" sx={{ mt: 2, fontWeight: "bold" }}>
+        <Typography variant="h5" sx={{mt: 2, fontWeight: "bold"}}>
           木嶋くん
         </Typography>
         <Typography variant="body2" color="textSecondary">
           僕の名前は木嶋隆: 僕は新潟出身なんだよね。写真を楽しんでいってね。
         </Typography>
-        <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 1 }}>
+        <Box sx={{mt: 2, display: "flex", justifyContent: "center", gap: 1}}>
           <Typography variant="body1">フォロワー: 1234 人</Typography>
           <Typography variant="body1">|</Typography>
           <Typography variant="body1">フォロー: 233 人</Typography>
         </Box>
-        <Box sx={{ mt: 3, display: "flex", justifyContent: "center", gap: 2 }}>
-          <Button variant="outlined" sx={{ minWidth: 40 }}>
+        <Box sx={{mt: 3, display: "flex", justifyContent: "center", gap: 2}}>
+          <Button variant="outlined" sx={{minWidth: 40}}>
             🔗
           </Button>
           <Button variant="contained" color="success">
             フォロー
           </Button>
-          <Button variant="outlined" sx={{ minWidth: 40 }}>
+          <Button variant="outlined" sx={{minWidth: 40}}>
             •••
           </Button>
         </Box>
@@ -77,13 +74,13 @@ export default function ProfilePage() {
           value={activeTab}
           onChange={handleTabChange}
           centered
-          sx={{ mt: 3, borderBottom: 1, borderColor: "divider" }}
+          sx={{mt: 3, borderBottom: 1, borderColor: "divider"}}
         >
-          <Tab label="ポスト" value="posts" />
-          <Tab label="お気に入り" value="favorites" />
+          <Tab label="ポスト" value="posts"/>
+          <Tab label="お気に入り" value="favorites"/>
         </Tabs>
       </Box>
-      <Grid container spacing={3} sx={{ marginTop: 3 }}>
+      <Grid container spacing={3} sx={{marginTop: 3}}>
         {gridItems.map((_, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Box
