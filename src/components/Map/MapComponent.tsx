@@ -7,6 +7,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import MapSidebar from "./MapSidebar";
 import MapPhotoDetailsPanel from "./MapPhotoDetailsPanel";
 import PhotoDetailView from "./MapPhotoDetailsPanel";
+import {Box, Typography} from "@mui/material";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ";
@@ -30,7 +31,7 @@ export default function MapComponent() {
       // Initialize the map and assign it to mapRef.current
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current, // Type-safe container reference
-        style: "mapbox://styles/mapbox/streets-v12",
+        style: "mapbox://styles/mapbox/streets-v11",
         center: [-65.017, -16.457],
         zoom: 6,
         attributionControl: false,
@@ -142,7 +143,7 @@ export default function MapComponent() {
   }, []);
 
   return (
-    <div style={{position: "relative", width: "100%", height: "100vh"}}>
+    <Box sx={{position: "relative", width: "100%", height: "100vh"}}>
       <SearchBox
         accessToken={MAPBOX_TOKEN}
         map={mapRef.current!} // Safe because of mapLoaded check
@@ -153,12 +154,36 @@ export default function MapComponent() {
         }}
         marker
       />
-      <div ref={mapContainerRef} id="map" style={{height: "1000px"}}>
+      <Box
+        ref={mapContainerRef}
+        id="map"
+        sx={{height: "800px", borderRadius: 8}}
+      >
         <PhotoDetailView
           selectedPhoto={selectedPhoto}
           setSelectedPhoto={setSelectedPhoto}
         />
-      </div>
-    </div>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%", // Full width of the parent container
+          textAlign: "center", // Ensure text is centered if it's multiline
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: 20,
+            mt: 2,
+            fontWeight: "bold", // Make the text bold
+          }}
+        >
+          もっと見る
+        </Typography>
+      </Box>
+    </Box>
   );
 }
