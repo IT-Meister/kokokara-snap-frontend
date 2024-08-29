@@ -6,17 +6,15 @@ import {useRouter, useSearchParams} from "next/navigation";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl, {MapMouseEvent} from "mapbox-gl";
 import {SearchBox} from "@mapbox/search-js-react";
-import {Box, Button, IconButton, Paper} from "@mui/material";
-import RotateLeftIcon from "@mui/icons-material/RotateLeft";
-import RotateRightIcon from "@mui/icons-material/RotateRight";
-import BackButton from "@/components/common/backButton";
+import {Box, Button, Paper} from "@mui/material";
 
-export default function MapboxExample() {
+export default function PostLocation() {
   const [inputValue, setInputValue] = useState("");
-
+  const [mapLoaded, setMapLoaded] = useState(false);
   const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
-  const [markerRotation, setMarkerRotation] = useState(0); // State to keep track of marker rotation
-
+  const [moveEvent, setMoveEvent] = useState<MapMouseEvent | undefined>(
+    undefined
+  );
   const markerRef = useRef<mapboxgl.Marker | null>(null); // Using a ref for the marker
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -51,14 +49,6 @@ export default function MapboxExample() {
     }
   };
 
-  const handleRotationChange = (change: number) => {
-    if (markerRef.current) {
-      const newRotation = markerRotation + change;
-      setMarkerRotation(newRotation);
-      markerRef.current.setRotation(newRotation);
-    }
-  };
-
   useEffect(() => {
     mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
 
@@ -69,17 +59,13 @@ export default function MapboxExample() {
       zoom: 9,
     });
 
-    // make a custom marker element
-    const el = document.createElement("div");
-    el.className = "custom-marker";
+    mapRef.current.on("mousemove", (e) => {
+      setMoveEvent(e);
+    });
 
-    el.style.width = "50px";
-    el.style.height = "50px";
-    el.style.backgroundImage =
-      "url('/2559828_camera_media_network_social_icon.png')";
-    el.style.backgroundSize = "cover";
-    el.style.cursor = "pointer";
-    el.style.transformOrigin = "center";
+    mapRef.current.on("load", () => {
+      setMapLoaded(true);
+    });
 
     mapRef.current.on("click", (e) => {
       const {lng, lat} = e.lngLat;
@@ -90,7 +76,7 @@ export default function MapboxExample() {
         markerRef.current.getPopup()?.setText(`Lat: ${lat}, Lng: ${lng}`); // Update popup text
       } else {
         // Create a new marker and set it at the click position
-        const newMarker = new mapboxgl.Marker(el)
+        const newMarker = new mapboxgl.Marker()
           .setLngLat([lng, lat])
           .setPopup(
             new mapboxgl.Popup({offset: 25}).setText(`Lat: ${lat}, Lng: ${lng}`)
@@ -115,42 +101,32 @@ export default function MapboxExample() {
         alignItems: "center", // Center vertically
       }}
     >
-      <Box
+      <Paper // Image preview on the left side
+        variant="outlined"
         sx={{
+          width: 800,
+          position: "relative",
+          borderRadius: "16px",
+          overflow: "hidden",
           display: "flex",
-          flexDirection: "column", // Stack items vertically
-          alignItems: "center", // Center items horizontally
-          gap: 2, // Space between items
+          backgroundColor: "#fafafa",
+          margin: "10px", // Add margin to the Paper component
         }}
       >
-        <BackButton /> {/* Using the reusable BackButton */}
-        <Paper
-          variant="outlined"
-          sx={{
-            width: 600,
-            height: 800,
-            position: "relative",
-            borderRadius: "16px",
-            overflow: "hidden",
-            display: "flex",
-            backgroundColor: "#fafafa",
-            margin: "10px", // Add margin to the Paper component
+        <img
+          src={decodeURIComponent(imagePath!)}
+          // src={imagePath!}
+          alt="Preview"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
           }}
-        >
-          <img
-            src={decodeURIComponent(imagePath!)}
-            alt="Preview"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </Paper>
-      </Box>
+        />
+      </Paper>
 
-      <Box
-        sx={{
+      <div
+        style={{
           position: "relative",
           width: "100%",
           height: "100%",
@@ -158,9 +134,54 @@ export default function MapboxExample() {
           justifyContent: "center", // Center horizontally
           alignItems: "center", // Center vertically
           flexDirection: "column", // Stack items vertically
-          margin: "10px",
+          margin: "10px", // Add margin to the container div
         }}
       >
+        {mapLoaded && (
+          <SearchBox
+            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
+            map={mapRef.current!} // Safe because of mapLoaded check
+            mapboxgl={mapboxgl}
+            value={inputValue}
+            onChange={(d) => {
+              setInputValue(d);
+            }}
+            marker={false}
+          />
+        )}
+        <div
+          id="map"
+          ref={mapContainerRef}
+          style={{
+            width: "100%", // Set map width
+            height: "100%", // Set map height
+            position: "relative", // Keep position relative to handle overlays
+            margin: "10px", // Add margin to the map container
+          }}
+        ></div>
+        <pre
+          id="info"
+          style={{
+            display: "table",
+            position: "relative",
+            margin: "10px", // Add margin to the pre element
+            whiteSpace: "pre-wrap",
+            padding: "10px",
+            border: "none",
+            borderRadius: "3px",
+            fontSize: "12px",
+            textAlign: "center",
+            color: "#222",
+            background: "#fff",
+          }}
+        >
+          {moveEvent && (
+            <>
+              <br />
+              {JSON.stringify(moveEvent.lngLat.wrap())}
+            </>
+          )}
+        </pre>
         {/* Next Button */}
         <Box
           className="Next Button"
@@ -184,75 +205,7 @@ export default function MapboxExample() {
             次へ
           </Button>
         </Box>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "10px",
-            left: "10px",
-            zIndex: 1,
-          }}
-        >
-          <SearchBox
-            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
-            map={mapRef.current!} // Safe because of mapLoaded check
-            mapboxgl={mapboxgl}
-            value={inputValue}
-            onChange={(d) => {
-              setInputValue(d);
-            }}
-            marker={false}
-          />
-        </Box>
-        <Box
-          id="map"
-          ref={mapContainerRef}
-          style={{
-            width: "100%", // Set map width
-            height: "100%", // Set map height
-            position: "relative", // Keep position relative to handle overlays
-            margin: "10px", // Add margin to the map container
-          }}
-        ></Box>
-      </Box>
-      {/* Rotate Buttons */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          position: "absolute", // Position it absolutely within the map container
-          bottom: "90px",
-          left: "50%",
-          transform: "translateX(-50%)", // Center horizontally
-          zIndex: 1,
-        }}
-      >
-        <IconButton
-          onClick={() => handleRotationChange(-10)} // Rotate left
-          sx={{
-            backgroundColor: "black",
-            color: "#fff",
-            padding: "8px",
-            "&:hover": {
-              backgroundColor: "darkgrey",
-            },
-          }}
-        >
-          <RotateLeftIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => handleRotationChange(10)} // Rotate right
-          sx={{
-            backgroundColor: "black",
-            color: "#fff",
-            padding: "8px",
-            "&:hover": {
-              backgroundColor: "darkgrey",
-            },
-          }}
-        >
-          <RotateRightIcon />
-        </IconButton>
-      </Box>
+      </div>
     </div>
   );
 }
