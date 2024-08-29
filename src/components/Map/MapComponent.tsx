@@ -143,17 +143,33 @@ export default function MapComponent() {
   }, []);
 
   return (
-    <Box sx={{position: "relative", width: "100%", height: "100vh"}}>
-      <SearchBox
-        accessToken={MAPBOX_TOKEN}
-        map={mapRef.current!} // Safe because of mapLoaded check
-        mapboxgl={mapboxgl}
-        value={inputValue}
-        onChange={(d) => {
-          setInputValue(d);
+    <Box
+      sx={{
+        position: "relative",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: 10,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 2,
         }}
-        marker
-      />
+      >
+        <SearchBox
+          accessToken={MAPBOX_TOKEN}
+          map={mapRef.current!} // Safe because of mapLoaded check
+          mapboxgl={mapboxgl}
+          value={inputValue}
+          onChange={(d) => {
+            setInputValue(d);
+          }}
+          marker
+        />
+      </Box>
       <Box
         ref={mapContainerRef}
         id="map"
@@ -183,6 +199,8 @@ export default function MapComponent() {
         >
           もっと見る
         </Typography>
+
+        {/* 近くの関連画像を表示 */}
       </Box>
     </Box>
   );

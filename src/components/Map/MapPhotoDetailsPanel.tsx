@@ -48,7 +48,7 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
             borderRadius: 4, // Change the roundness of the corners
             p: 2,
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
           }}
         >
           <Box
@@ -66,7 +66,7 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
           </Box>
           <Box
             sx={{
-              width: "40%",
+              width: "100%",
               maxWidth: "100%",
               maxHeight: "100%",
               display: "flex",
