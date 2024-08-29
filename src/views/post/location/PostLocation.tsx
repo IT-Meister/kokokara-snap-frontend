@@ -11,7 +11,7 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
 import BackButton from "@/components/common/backButton";
 
-export default function MapboxExample() {
+export default function PostLocation() {
   const [inputValue, setInputValue] = useState("");
 
   const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
@@ -90,7 +90,7 @@ export default function MapboxExample() {
         markerRef.current.getPopup()?.setText(`Lat: ${lat}, Lng: ${lng}`); // Update popup text
       } else {
         // Create a new marker and set it at the click position
-        const newMarker = new mapboxgl.Marker(el)
+        const newMarker = new mapboxgl.Marker()
           .setLngLat([lng, lat])
           .setPopup(
             new mapboxgl.Popup({offset: 25}).setText(`Lat: ${lat}, Lng: ${lng}`)
@@ -161,6 +161,51 @@ export default function MapboxExample() {
           margin: "10px",
         }}
       >
+        {mapLoaded && (
+          <SearchBox
+            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
+            map={mapRef.current!} // Safe because of mapLoaded check
+            mapboxgl={mapboxgl}
+            value={inputValue}
+            onChange={(d) => {
+              setInputValue(d);
+            }}
+            marker={false}
+          />
+        )}
+        <div
+          id="map"
+          ref={mapContainerRef}
+          style={{
+            width: "100%", // Set map width
+            height: "100%", // Set map height
+            position: "relative", // Keep position relative to handle overlays
+            margin: "10px", // Add margin to the map container
+          }}
+        ></div>
+        <pre
+          id="info"
+          style={{
+            display: "table",
+            position: "relative",
+            margin: "10px", // Add margin to the pre element
+            whiteSpace: "pre-wrap",
+            padding: "10px",
+            border: "none",
+            borderRadius: "3px",
+            fontSize: "12px",
+            textAlign: "center",
+            color: "#222",
+            background: "#fff",
+          }}
+        >
+          {moveEvent && (
+            <>
+              <br />
+              {JSON.stringify(moveEvent.lngLat.wrap())}
+            </>
+          )}
+        </pre>
         {/* Next Button */}
         <Box
           className="Next Button"
