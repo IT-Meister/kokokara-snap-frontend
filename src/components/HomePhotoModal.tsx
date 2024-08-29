@@ -1,4 +1,6 @@
 import React from "react";
+import {useRouter} from "next/navigation";
+
 import {
   Modal,
   Box,
@@ -9,7 +11,6 @@ import {
   Fade,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import {useRouter} from "next/navigation";
 
 interface Post {
   id: number;
