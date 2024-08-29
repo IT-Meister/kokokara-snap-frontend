@@ -6,15 +6,15 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import MapSidebar from "./MapSidebar";
 import MapPhotoDetailsPanel from "./MapPhotoDetailsPanel";
+import PhotoDetailView from "./MapPhotoDetailsPanel";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1Ijoia3RzdWdhdTUyNSIsImEiOiJjbTAxdXFzazcxd2liMmlzMnQ4ZWE0cGR3In0.98x_7QdykqBFX_NKvKnGJQ";
 
-export default function MapComponent () {
+export default function MapComponent() {
   // Initialize with null instead of leaving it undefined
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const [mapLoaded, setMapLoaded] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
   const [selectedPhoto, setSelectedPhoto] = useState<{
@@ -34,10 +34,6 @@ export default function MapComponent () {
         center: [-65.017, -16.457],
         zoom: 6,
         attributionControl: false,
-      });
-
-      mapRef.current.on("load", () => {
-        setMapLoaded(true);
       });
 
       // DB
@@ -146,29 +142,23 @@ export default function MapComponent () {
   }, []);
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-      {mapLoaded && (
-        <SearchBox
-          accessToken={MAPBOX_TOKEN}
-          map={mapRef.current!} // Safe because of mapLoaded check
-          mapboxgl={mapboxgl}
-          value={inputValue}
-          onChange={(d) => {
-            setInputValue(d);
-          }}
-          marker
+    <div style={{position: "relative", width: "100%", height: "100vh"}}>
+      <SearchBox
+        accessToken={MAPBOX_TOKEN}
+        map={mapRef.current!} // Safe because of mapLoaded check
+        mapboxgl={mapboxgl}
+        value={inputValue}
+        onChange={(d) => {
+          setInputValue(d);
+        }}
+        marker
+      />
+      <div ref={mapContainerRef} id="map" style={{height: "1000px"}}>
+        <PhotoDetailView
+          selectedPhoto={selectedPhoto}
+          setSelectedPhoto={setSelectedPhoto}
         />
-      )}
-      <div ref={mapContainerRef} id="map" style={{ height: "100vh" }}>
-        {selectedPhoto && (
-          <MapPhotoDetailsPanel
-            title={selectedPhoto.title}
-            imageUrl={selectedPhoto.imageUrl}
-            description={selectedPhoto.description}
-          />
-        )}
       </div>
-      <MapSidebar />
     </div>
   );
-};
+}
