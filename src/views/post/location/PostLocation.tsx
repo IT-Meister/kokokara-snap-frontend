@@ -8,7 +8,7 @@ import mapboxgl, {MapMouseEvent} from "mapbox-gl";
 import {SearchBox} from "@mapbox/search-js-react";
 import {Box, Button, Paper} from "@mui/material";
 
-export default function MapboxExample() {
+export default function PostLocation() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);

@@ -15,7 +15,7 @@ import {
 import {Search as SearchIcon} from "@mui/icons-material";
 
 import HomePhotoModal from "@/components/HomePhotoModal";
-import mockPosts, {Post} from "../../public/mockPosts";
+import mockPosts, {Post} from "../mock-data/mockPosts";
 
 export default function HomePage() {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material";
+import {Box, Typography, Card, CardMedia, CardContent} from "@mui/material";
 
 interface PhotoDetailViewProps {
   title: string;
@@ -9,7 +9,7 @@ interface PhotoDetailViewProps {
 }
 
 export default function PhotoDetailView(props: PhotoDetailViewProps) {
-  const { title, imageUrl, description } = props;
+  const {title, imageUrl, description} = props;
 
   return (
     <Box
@@ -43,4 +43,4 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
       </Card>
     </Box>
   );
-};
+}
