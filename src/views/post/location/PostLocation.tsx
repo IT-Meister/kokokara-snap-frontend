@@ -221,6 +221,29 @@ export default function MapboxExample() {
               {JSON.stringify(moveEvent.lngLat.wrap())}
             </>
           )}
+          {/* Next Button */}
+          <Box
+            className="Next Button"
+            sx={{
+              display: "flex",
+              mt: 2,
+              mb: 2,
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#e60023",
+                color: "#fff",
+                padding: "8px 24px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              onClick={handleNextClick}
+            >
+              次へ
+            </Button>
+          </Box>
         </Box>
       </Box>
     </div>
