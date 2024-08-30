@@ -25,7 +25,7 @@ export default function ForgotPasswordPage() {
           認証コードを送る
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Enter your email address below and we'll send you a link to reset your
+          Enter your email address below and we&apos;ll send you a link to reset your
           password.
         </Typography>
 
