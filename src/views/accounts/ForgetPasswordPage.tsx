@@ -1,7 +1,7 @@
 import React from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 
-const ForgotPasswordPage: React.FC = () => {
+export default function ForgotPasswordPage() {
   return (
     <Box
       display="flex"
@@ -58,5 +58,3 @@ const ForgotPasswordPage: React.FC = () => {
     </Box>
   );
 };
-
-export default ForgotPasswordPage;
