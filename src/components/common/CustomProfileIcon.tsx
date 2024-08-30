@@ -1,10 +1,13 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
 import {styled} from "@mui/system";
+import {IconButton} from "@mui/material";
+import {useRouter} from "next/navigation";
 
 interface IconProps {
   src: string;
   size?: number;
+  onClick?: () => void;
 }
 
 const StyledAvatar = styled(Avatar)<{size: number}>(({size}) => ({
@@ -17,8 +20,21 @@ const StyledAvatar = styled(Avatar)<{size: number}>(({size}) => ({
   },
 }));
 
-const CustomProfileIcon: React.FC<IconProps> = ({src, size = 50}) => {
-  return <StyledAvatar alt="Profile Image" src={src} size={size} />;
+const CustomProfileIcon: React.FC<IconProps> = ({src, size = 50, onClick}) => {
+  const router = useRouter();
+
+  const handleOnClick = () => {
+    router.push("/profile/1");
+  };
+
+  return (
+    <StyledAvatar
+      alt="Profile Image"
+      src={src}
+      size={size}
+      onClick={onClick || handleOnClick}
+    />
+  );
 };
 
 export default CustomProfileIcon;

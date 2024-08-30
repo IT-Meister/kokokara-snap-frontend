@@ -2,8 +2,10 @@ import React, {useState} from "react";
 
 import {Box, Typography, CardMedia, IconButton, Modal} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import {useRouter} from "next/navigation";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
-import CustomProfileIcon from "../common/customProfileIcon";
+
+import CustomProfileIcon from "../common/CustomProfileIcon";
 
 interface PhotoDetailViewProps {
   selectedPhoto: {
@@ -21,6 +23,7 @@ interface PhotoDetailViewProps {
 }
 
 export default function PhotoDetailView(props: PhotoDetailViewProps) {
+  const router = useRouter();
   const {selectedPhoto, setSelectedPhoto} = props;
   const [showModal, setShowModal] = useState<boolean>(false);
   const handleClose = () => {
@@ -33,6 +36,10 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleProfileClick = () => {
+    // route to profile page based on profile ID?
   };
 
   return (
@@ -94,7 +101,7 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
               p: 2,
             }}
           >
-            <CustomProfileIcon src="/mockImages/post1.jpg" size={50} />
+            <CustomProfileIcon src="/mockProfile1.jpg" size={50} />
           </Box>
           <Box
             sx={{
