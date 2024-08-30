@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import {
   Box,
   Button,
@@ -30,7 +29,7 @@ const SignUpPage: React.FC = () => {
         borderRadius="8px"
         boxShadow="0 4px 12px rgba(0, 0, 0, 0.1)"
         bgcolor="#fff"
-        component="form"
+        component="form" // The Box acts as the form element
       >
         <Typography variant="h4" component="h1" gutterBottom>
           Hey, hello 👋
@@ -38,41 +37,41 @@ const SignUpPage: React.FC = () => {
         <Typography variant="body1" gutterBottom>
           Enter the information you entered while registering.
         </Typography>
-        <form noValidate autoComplete="off">
-          <TextField
-            fullWidth
-            label="Email"
-            variant="outlined"
-            margin="normal"
-            type="email"
-            required={true}
-          />
-          <TextField
-            fullWidth
-            label="Password"
-            variant="outlined"
-            margin="normal"
-            type="password"
-            required={true}
-          />
-          <FormControlLabel
-            control={<Checkbox defaultChecked />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{
-              marginTop: "1rem",
-              background: "linear-gradient(to right, #4f44e0, #6c63ff)",
-              textTransform: "none",
-            }}
-          >
-            登録
-          </Button>
-        </form>
+
+        <TextField
+          fullWidth
+          label="Email"
+          variant="outlined"
+          margin="normal"
+          type="email"
+          required={true}
+        />
+        <TextField
+          fullWidth
+          label="Password"
+          variant="outlined"
+          margin="normal"
+          type="password"
+          required={true}
+        />
+        <FormControlLabel
+          control={<Checkbox defaultChecked />}
+          label="Remember me"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{
+            marginTop: "1rem",
+            background: "linear-gradient(to right, #4f44e0, #6c63ff)",
+            textTransform: "none",
+          }}
+        >
+          登録
+        </Button>
+
         <Box
           display="flex"
           justifyContent="space-between"
@@ -90,6 +89,7 @@ const SignUpPage: React.FC = () => {
           or
         </Typography>
         <Button
+          type="button" // Changed type to "button" to prevent form submission
           fullWidth
           variant="outlined"
           startIcon={<GoogleIcon />}
