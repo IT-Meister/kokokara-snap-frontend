@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 
-import SearchBar from "./SearchBar"; // Import the SearchBar component
+import SearchBar from "./SearchBar/SearchBar"; // Import the SearchBar component
 
 export default function Headeraa() {
   const [activeButton, setActiveButton] = useState<string>("home");
@@ -106,35 +106,35 @@ export default function Headeraa() {
           <Box sx={{flexGrow: 1, ml: 2}}>
             <SearchBar /> {/* Insert the SearchBar here */}
           </Box>
+          <IconButton
+            onClick={handleMenuOpen}
+            edge="end"
+            sx={{height: 60, ml: 2}}
+          >
+            {" "}
+            {/* Adjust the size here */}
+            <Avatar
+              src="https://via.placeholder.com/50"
+              sx={{width: "100%", height: "100%"}}
+            />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+            <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
+          </Menu>
         </Box>
-        <IconButton
-          onClick={handleMenuOpen}
-          edge="end"
-          sx={{height: 60, marginLeft: 2}}
-        >
-          {" "}
-          {/* Adjust the size here */}
-          <Avatar
-            src="https://via.placeholder.com/50"
-            sx={{width: "100%", height: "100%"}}
-          />
-        </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-        >
-          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-          <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
-        </Menu>
       </Toolbar>
     </AppBar>
   );
