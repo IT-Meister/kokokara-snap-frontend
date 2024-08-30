@@ -1,17 +1,7 @@
-"use client";
-
 import React from "react";
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
-import {Google as GoogleIcon} from "@mui/icons-material";
+import {Box, Button, TextField, Typography} from "@mui/material";
 
-const SignUpPage: React.FC = () => {
+const ForgotPasswordPage: React.FC = () => {
   return (
     <Box
       display="flex"
@@ -29,13 +19,14 @@ const SignUpPage: React.FC = () => {
         borderRadius="8px"
         boxShadow="0 4px 12px rgba(0, 0, 0, 0.1)"
         bgcolor="#fff"
-        component="form" // The Box acts as the form element
+        component="form"
       >
         <Typography variant="h4" component="h1" gutterBottom>
-          Hey, hello 👋
+          認証コードを送る
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Enter the information you entered while registering.
+          Enter your email address below and we'll send you a link to reset your
+          password.
         </Typography>
 
         <TextField
@@ -44,14 +35,6 @@ const SignUpPage: React.FC = () => {
           variant="outlined"
           margin="normal"
           type="email"
-          required={true}
-        />
-        <TextField
-          fullWidth
-          label="Password"
-          variant="outlined"
-          margin="normal"
-          type="password"
           required={true}
         />
         <Button
@@ -65,31 +48,15 @@ const SignUpPage: React.FC = () => {
             textTransform: "none",
           }}
         >
-          登録
+          Send Reset Link
         </Button>
 
-        <Typography
-          variant="body2"
-          align="center"
-          marginTop="1rem"
-          marginBottom="1rem"
-        >
-          or
-        </Typography>
-        <Button
-          type="button" // Changed type to "button" to prevent form submission
-          fullWidth
-          variant="outlined"
-          startIcon={<GoogleIcon />}
-          sx={{
-            textTransform: "none",
-          }}
-        >
-          Sign Up with Google
+        <Button color="primary" href="/login">
+          Login
         </Button>
       </Box>
     </Box>
   );
 };
 
-export default SignUpPage;
+export default ForgotPasswordPage;

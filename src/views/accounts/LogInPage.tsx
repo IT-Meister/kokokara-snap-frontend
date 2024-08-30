@@ -10,8 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import {Google as GoogleIcon} from "@mui/icons-material";
+import {useRouter} from "next/navigation";
 
 const SignUpPage: React.FC = () => {
+  const router = useRouter();
+  const handleForgetPassword = () => {
+    router.push("/accounts/forget-password");
+  };
+
   return (
     <Box
       display="flex"
@@ -54,10 +60,6 @@ const SignUpPage: React.FC = () => {
           type="password"
           required={true}
         />
-        <FormControlLabel
-          control={<Checkbox defaultChecked />}
-          label="Remember me"
-        />
         <Button
           type="submit"
           fullWidth
@@ -78,7 +80,9 @@ const SignUpPage: React.FC = () => {
           alignItems="center"
           marginTop="1rem"
         >
-          <Button color="primary">Forgot password?</Button>
+          <Button color="primary" onClick={handleForgetPassword}>
+            パスワードを忘れた場合は
+          </Button>
         </Box>
         <Typography
           variant="body2"
