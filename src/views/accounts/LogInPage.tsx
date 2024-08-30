@@ -18,6 +18,10 @@ const SignUpPage: React.FC = () => {
     router.push("/accounts/forget-password");
   };
 
+  const handleClickSignUp = () => {
+    router.push("/accounts/signup");
+  };
+
   return (
     <Box
       display="flex"
@@ -38,15 +42,15 @@ const SignUpPage: React.FC = () => {
         component="form" // The Box acts as the form element
       >
         <Typography variant="h4" component="h1" gutterBottom>
-          Hey, hello 👋
+          ログイン
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Enter the information you entered while registering.
+          メールアドレスとパスワードを入力してください
         </Typography>
 
         <TextField
           fullWidth
-          label="Email"
+          label="メールアドレス"
           variant="outlined"
           margin="normal"
           type="email"
@@ -54,7 +58,7 @@ const SignUpPage: React.FC = () => {
         />
         <TextField
           fullWidth
-          label="Password"
+          label="パスワード"
           variant="outlined"
           margin="normal"
           type="password"
@@ -90,7 +94,7 @@ const SignUpPage: React.FC = () => {
           marginTop="1rem"
           marginBottom="1rem"
         >
-          or
+          または
         </Typography>
         <Button
           type="button" // Changed type to "button" to prevent form submission
@@ -103,6 +107,24 @@ const SignUpPage: React.FC = () => {
         >
           Sign in with Google
         </Button>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          marginTop="1rem"
+        >
+          <Typography
+            variant="body2"
+            align="center"
+            marginTop="1rem"
+            marginBottom="1rem"
+          >
+            アカウントをお持ちでないですか？
+          </Typography>
+          <Button color="primary" onClick={handleClickSignUp}>
+            登録する
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

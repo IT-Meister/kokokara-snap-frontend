@@ -9,9 +9,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import {useRouter} from "next/navigation";
 import {Google as GoogleIcon} from "@mui/icons-material";
 
 const SignUpPage: React.FC = () => {
+  const router = useRouter();
+
+  const handleClickLogIn = () => {
+    router.push("/accounts/login");
+  };
+
   return (
     <Box
       display="flex"
@@ -32,15 +39,14 @@ const SignUpPage: React.FC = () => {
         component="form" // The Box acts as the form element
       >
         <Typography variant="h4" component="h1" gutterBottom>
-          Hey, hello 👋
+          アカウントを登録
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Enter the information you entered while registering.
+          メールアドレスとパスワードを入力してください
         </Typography>
-
         <TextField
           fullWidth
-          label="Email"
+          label="メールアドレス"
           variant="outlined"
           margin="normal"
           type="email"
@@ -48,7 +54,7 @@ const SignUpPage: React.FC = () => {
         />
         <TextField
           fullWidth
-          label="Password"
+          label="パスワード"
           variant="outlined"
           margin="normal"
           type="password"
@@ -67,14 +73,13 @@ const SignUpPage: React.FC = () => {
         >
           登録
         </Button>
-
         <Typography
           variant="body2"
           align="center"
           marginTop="1rem"
           marginBottom="1rem"
         >
-          or
+          または
         </Typography>
         <Button
           type="button" // Changed type to "button" to prevent form submission
@@ -87,6 +92,24 @@ const SignUpPage: React.FC = () => {
         >
           Sign Up with Google
         </Button>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          marginTop="1rem"
+        >
+          <Typography
+            variant="body2"
+            align="center"
+            marginTop="1rem"
+            marginBottom="1rem"
+          >
+            アカウントをお持ちですか？
+          </Typography>
+          <Button color="primary" onClick={handleClickLogIn}>
+            ログイン
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
