@@ -12,7 +12,7 @@ import {
 import {useRouter} from "next/navigation";
 import {Google as GoogleIcon} from "@mui/icons-material";
 
-const SignUpPage: React.FC = () => {
+export default function SignUpPage() {
   const router = useRouter();
 
   const handleClickLogIn = () => {
@@ -114,5 +114,3 @@ const SignUpPage: React.FC = () => {
     </Box>
   );
 };
-
-export default SignUpPage;
