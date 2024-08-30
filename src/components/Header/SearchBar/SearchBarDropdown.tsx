@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 
 import {
   Paper,
@@ -96,7 +97,7 @@ const SearchBarDropdown: React.FC<SearchBarDropdownProps> = ({
                       p: 1,
                     }}
                   >
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.label}
                       style={{

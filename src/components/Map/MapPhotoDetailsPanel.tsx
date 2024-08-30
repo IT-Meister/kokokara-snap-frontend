@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import Image from 'next/image';
 
 import {Box, Typography, CardMedia, IconButton, Modal} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -151,7 +152,7 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
                 flexDirection: "row", // Aligns CardMedia and content side by side
               }}
             >
-              <img src={selectedPhoto?.imageUrl} alt={selectedPhoto?.title} />
+              <Image src={selectedPhoto?.imageUrl} alt={selectedPhoto?.title} />
 
               <Box
                 sx={{
