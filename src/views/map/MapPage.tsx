@@ -15,7 +15,7 @@ export default function MapPage() {
       }}
     >
       {/* Map Component */}
-      <MapComponent/>
+      <MapComponent />
     </div>
   );
 }

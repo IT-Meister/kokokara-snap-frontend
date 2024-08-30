@@ -9,7 +9,7 @@ import mapboxgl, {MapMouseEvent} from "mapbox-gl";
 import {SearchBox} from "@mapbox/search-js-react";
 import {Box, Button, Paper} from "@mui/material";
 
-export default function MapboxExample() {
+export default function PostLocation() {
   const [inputValue, setInputValue] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapSnapshotPath, setMapSnapshotPath] = useState<string | null>(null);
@@ -78,13 +78,11 @@ export default function MapboxExample() {
       } else {
         // Create a new marker and set it at the click position
         const newMarker = new mapboxgl.Marker()
-        .setLngLat([lng, lat])
-        .setPopup(
-          new mapboxgl.Popup({offset: 25}).setText(
-            `Lat: ${lat}, Lng: ${lng}`
+          .setLngLat([lng, lat])
+          .setPopup(
+            new mapboxgl.Popup({offset: 25}).setText(`Lat: ${lat}, Lng: ${lng}`)
           )
-        )
-        .addTo(mapRef.current!);
+          .addTo(mapRef.current!);
 
         markerRef.current = newMarker; // Store marker in ref
       }
@@ -180,7 +178,7 @@ export default function MapboxExample() {
         >
           {moveEvent && (
             <>
-              <br/>
+              <br />
               {JSON.stringify(moveEvent.lngLat.wrap())}
             </>
           )}
