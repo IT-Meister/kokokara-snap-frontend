@@ -12,7 +12,7 @@ import {
 import {Google as GoogleIcon} from "@mui/icons-material";
 import {useRouter} from "next/navigation";
 
-const SignUpPage: React.FC = () => {
+export default function SignUpPage() {
   const router = useRouter();
   const handleForgetPassword = () => {
     router.push("/accounts/forget-password");
@@ -129,5 +129,3 @@ const SignUpPage: React.FC = () => {
     </Box>
   );
 };
-
-export default SignUpPage;
