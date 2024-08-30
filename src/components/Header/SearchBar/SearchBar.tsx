@@ -4,6 +4,7 @@ import React, {useState} from "react";
 
 import {Paper, InputBase, IconButton} from "@mui/material";
 import {Search as SearchIcon} from "@mui/icons-material";
+
 import SearchBarDropdown from "./SearchBarDropdown";
 
 export default function SearchBar() {

@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import {Search as SearchIcon} from "@mui/icons-material";
 
-import HomePhotoModal from "@/components/HomePhotoModal";
+import HomePhotoModal from "@/components/Home/HomePhotoModal";
 import mockPosts, {Post} from "../mock-data/mockPosts";
 
 export default function HomePage() {

@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 
-import SearchBar from "./SearchBar"; // Import the SearchBar component
+import SearchBar from "./SearchBar/SearchBar"; // Import the SearchBar component
 
 export default function Headeraa() {
   const [activeButton, setActiveButton] = useState<string>("home");
