@@ -53,7 +53,7 @@ const SearchBarDropdown: React.FC<SearchBarDropdownProps> = ({
             .filter((rec: string) =>
               rec.toLowerCase().includes(searchQuery.toLowerCase())
             )
-            .map((rec: any, index: React.Key) => (
+            .map((rec: string, index: React.Key) => (
               <ListItem
                 key={index}
                 sx={{
