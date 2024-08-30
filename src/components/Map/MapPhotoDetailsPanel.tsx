@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {Box, Typography, CardMedia, IconButton, Modal} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import CustomProfileIcon from "../common/customProfileIcon";
 
 interface PhotoDetailViewProps {
   selectedPhoto: {
@@ -87,6 +88,13 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
                 borderRadius: 2,
               }}
             />
+          </Box>
+          <Box
+            sx={{
+              p: 2,
+            }}
+          >
+            <CustomProfileIcon src="/mockImages/post1.jpg" size={50} />
           </Box>
           <Box
             sx={{
