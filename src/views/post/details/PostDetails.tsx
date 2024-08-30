@@ -2,6 +2,7 @@
 
 import React, {useState} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
+import Image from 'next/image';
 
 import {
   Typography,
@@ -64,7 +65,7 @@ export default function PostDetails() {
                 overflow: "hidden",
               }}
             >
-              <img
+              <Image
                 src={decodeURIComponent(imagePath!)}
                 alt="Preview"
                 style={{
@@ -89,7 +90,7 @@ export default function PostDetails() {
                 mt: 1,
               }}
             >
-              <img
+              <Image
                 src={decodeURIComponent(mapSnapshotPath!)}
                 alt="Preview"
                 style={{

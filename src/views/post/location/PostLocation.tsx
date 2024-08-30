@@ -2,6 +2,7 @@
 
 import React, {useEffect, useRef, useState} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
+import Image from 'next/image';
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl, {MapMouseEvent} from "mapbox-gl";
@@ -115,7 +116,7 @@ export default function MapboxExample() {
           margin: "10px", // Add margin to the Paper component
         }}
       >
-        <img
+        <Image
           src={decodeURIComponent(imagePath!)}
           // src={imagePath!}
           alt="Preview"

@@ -2,6 +2,7 @@
 
 import React, {useCallback, useState} from "react";
 import {useRouter} from "next/navigation";
+import Image from 'next/image';
 
 import {Box, Paper, Button} from "@mui/material";
 import {useDropzone} from "react-dropzone";
@@ -61,7 +62,7 @@ export default function PostImageUploadPage() {
               backgroundColor: "#fafafa",
             }}
           >
-            <img
+            <Image
               src={
                 imagePath ? imagePath : "https://via.placeholder.com/300x400"
               }

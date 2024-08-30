@@ -2,6 +2,7 @@
 
 import React, {useState} from "react";
 import {useRouter} from "next/navigation";
+import Image from 'next/image';
 
 import {
   AppBar,
@@ -60,7 +61,7 @@ export default function Headeraa() {
       >
         <Box sx={{display: "flex", alignItems: "center", flexGrow: 1}}>
           <IconButton onClick={handleLogoClick} edge="start" sx={{padding: 0}}>
-            <img
+            <Image
               src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png"
               alt="Pinterest Logo"
               style={{height: 50}}
