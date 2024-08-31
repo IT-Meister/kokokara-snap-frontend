@@ -93,6 +93,8 @@ export default function PostLocation() {
     };
   }, []);
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div
       style={{
@@ -139,6 +141,7 @@ export default function PostLocation() {
         }}
       >
         {mapLoaded && (
+          // @ts-ignore
           <SearchBox
             accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
             map={mapRef.current!} // Safe because of mapLoaded check
