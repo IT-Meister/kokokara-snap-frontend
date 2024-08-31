@@ -104,8 +104,10 @@ export default function MapComponent() {
         <SearchBox
           accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
           map={mapRef.current!} // Safe because of mapLoaded check
+          // @ts-ignore
           mapboxgl={mapboxgl}
           value={inputValue}
+          // @ts-ignore
           onChange={(d) => {
             setInputValue(d);
           }}
