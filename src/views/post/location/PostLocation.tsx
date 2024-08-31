@@ -93,8 +93,6 @@ export default function PostLocation() {
     };
   }, []);
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <div
       style={{
@@ -104,29 +102,31 @@ export default function PostLocation() {
         alignItems: "center", // Center vertically
       }}
     >
-      <Paper // Image preview on the left side
-        variant="outlined"
-        sx={{
-          width: 800,
-          position: "relative",
-          borderRadius: "16px",
-          overflow: "hidden",
-          display: "flex",
-          backgroundColor: "#fafafa",
-          margin: "10px", // Add margin to the Paper component
-        }}
-      >
-        <Image
-          src={decodeURIComponent(imagePath!)}
-          // src={imagePath!}
-          alt="Preview"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
+      {imagePath && (
+        <Paper // Image preview on the left side
+          variant="outlined"
+          sx={{
+            width: 800,
+            position: "relative",
+            borderRadius: "16px",
+            overflow: "hidden",
+            display: "flex",
+            backgroundColor: "#fafafa",
+            margin: "10px", // Add margin to the Paper component
           }}
-        />
-      </Paper>
+        >
+          <Image
+            src={decodeURIComponent(imagePath!)}
+            // src={imagePath!}
+            alt="Preview"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </Paper>
+      )}
 
       <div
         style={{
@@ -145,8 +145,10 @@ export default function PostLocation() {
           <SearchBox
             accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
             map={mapRef.current!} // Safe because of mapLoaded check
+            // @ts-ignore
             mapboxgl={mapboxgl}
             value={inputValue}
+            // @ts-ignore
             onChange={(d) => {
               setInputValue(d);
             }}
