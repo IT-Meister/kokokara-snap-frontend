@@ -1,6 +1,7 @@
-'use client'
+"use client";
 
 import React, {useState} from "react";
+import {useParams, useRouter} from "next/navigation";
 
 import {
   Container,
@@ -18,6 +19,14 @@ export default function ProfilePage() {
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
     setActiveTab(newValue);
+  };
+
+  const router = useRouter();
+  const params = useParams();
+  const {userName} = params;
+
+  const handleEditClick = () => {
+    router.push(`/profile/${userName}/profile-edit`);
   };
 
   const gridItems = Array(6).fill(0); // Example grid data
@@ -63,8 +72,8 @@ export default function ProfilePage() {
           <Button variant="outlined" sx={{minWidth: 40}}>
             🔗
           </Button>
-          <Button variant="contained" color="success">
-            フォロー
+          <Button variant="contained" color="success" onClick={handleEditClick}>
+            編集する
           </Button>
           <Button variant="outlined" sx={{minWidth: 40}}>
             •••
@@ -76,8 +85,8 @@ export default function ProfilePage() {
           centered
           sx={{mt: 3, borderBottom: 1, borderColor: "divider"}}
         >
-          <Tab label="ポスト" value="posts"/>
-          <Tab label="お気に入り" value="favorites"/>
+          <Tab label="ポスト" value="posts" />
+          <Tab label="お気に入り" value="favorites" />
         </Tabs>
       </Box>
       <Grid container spacing={3} sx={{marginTop: 3}}>
@@ -96,4 +105,4 @@ export default function ProfilePage() {
       </Grid>
     </Container>
   );
-};
+}
