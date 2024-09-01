@@ -1,3 +1,5 @@
+"use client";
+
 import React, {useState} from "react";
 import {
   Box,
@@ -12,13 +14,13 @@ import {
 } from "@mui/material";
 
 const prefectures = [
-  "Hokkaido",
-  "Aomori",
-  "Iwate",
-  "Miyagi",
-  "Akita",
-  "Yamagata",
-  "Fukushima",
+  "北海道",
+  "青森県",
+  "岩手県",
+  "宮城県",
+  "秋田県",
+  "山形県",
+  "福島県",
   // Add more prefectures as needed
 ];
 
@@ -72,31 +74,43 @@ export default function ProfileRegisterPage() {
         onSubmit={handleSubmit}
       >
         <Typography variant="h4" component="h1" gutterBottom>
-          Register
+          プロフィール登録
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          ユーザー情報を登録してください
         </Typography>
 
         {/* Profile Image */}
-        <Box display="flex" justifyContent="center" marginBottom="1rem">
-          <Avatar src={profileImage || ""} sx={{width: 80, height: 80}} />
-        </Box>
-        <Button
-          variant="contained"
-          component="label"
-          sx={{marginBottom: "1rem"}}
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          marginBottom="1rem"
+          marginTop="1rem"
         >
-          Upload Profile Image
-          <input
-            type="file"
-            hidden
-            accept="image/*"
-            onChange={handleProfileImageChange}
+          <Avatar
+            src={profileImage || ""}
+            sx={{width: 80, height: 80, marginBottom: "1rem"}}
           />
-        </Button>
+          <Button
+            variant="contained"
+            component="label"
+            sx={{marginBottom: "1rem"}}
+          >
+            写真をアップロード
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={handleProfileImageChange}
+            />
+          </Button>
+        </Box>
 
         {/* Display Name */}
         <TextField
           fullWidth
-          label="Display Name"
+          label="ディスプレイネーム"
           variant="outlined"
           margin="normal"
           value={displayName}
@@ -107,7 +121,7 @@ export default function ProfileRegisterPage() {
         {/* Username */}
         <TextField
           fullWidth
-          label="Username"
+          label="ユーザーネーム"
           variant="outlined"
           margin="normal"
           value={userName}
@@ -117,12 +131,12 @@ export default function ProfileRegisterPage() {
 
         {/* Prefecture */}
         <FormControl fullWidth margin="normal">
-          <InputLabel id="prefecture-label">Prefecture</InputLabel>
+          <InputLabel id="prefecture-label">都道府県</InputLabel>
           <Select
             labelId="prefecture-label"
             value={selectedPrefecture}
             onChange={(e) => setSelectedPrefecture(e.target.value as string)}
-            label="Prefecture"
+            label="都道府県"
             required
           >
             {prefectures.map((prefecture) => (
@@ -145,7 +159,7 @@ export default function ProfileRegisterPage() {
             textTransform: "none",
           }}
         >
-          Register
+          プロフィールを登録
         </Button>
       </Box>
     </Box>
