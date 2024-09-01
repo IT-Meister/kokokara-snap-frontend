@@ -40,6 +40,10 @@ export default function Headeraa() {
     // Handle settings click
   };
 
+  const handleLoginClick = () => {
+    router.push("/accounts/login");
+  };
+
   const handleLogoClick = () => {
     setActiveButton("home");
     router.push("/");
@@ -107,11 +111,24 @@ export default function Headeraa() {
           <Box sx={{flexGrow: 1, ml: 2}}>
             <SearchBar /> {/* Insert the SearchBar here */}
           </Box>
-          <IconButton
-            onClick={handleMenuOpen}
-            edge="end"
-            sx={{height: 60, ml: 2}}
+          {/* ログイン Button */}
+          <Button
+            sx={{
+              ml: 2,
+              fontWeight: "bold",
+              color: "white",
+              backgroundColor: "#b30000", // Slightly darker red
+              padding: "8px 20px",
+              borderRadius: "24px",
+              "&:hover": {
+                backgroundColor: "#800000", // Darker red on hover
+              },
+            }}
+            onClick={handleLoginClick}
           >
+            ログイン
+          </Button>
+          <IconButton onClick={handleMenuOpen} edge="end" sx={{height: 60}}>
             {" "}
             {/* Adjust the size here */}
             <Avatar

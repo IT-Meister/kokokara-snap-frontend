@@ -1,14 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
+import {Box, Button, TextField, Typography} from "@mui/material";
 import {useRouter} from "next/navigation";
 import {Google as GoogleIcon} from "@mui/icons-material";
 
@@ -113,4 +106,4 @@ export default function SignUpPage() {
       </Box>
     </Box>
   );
-};
+}
