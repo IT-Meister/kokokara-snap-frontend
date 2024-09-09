@@ -2,7 +2,7 @@
 
 import React, {useCallback, useState} from "react";
 import {useRouter} from "next/navigation";
-import Image from 'next/image';
+import Image from "next/image";
 
 import {Box, Paper, Button} from "@mui/material";
 import {useDropzone} from "react-dropzone";
@@ -63,9 +63,9 @@ export default function PostImageUploadPage() {
             }}
           >
             <Image
-              src={
-                imagePath ? imagePath : "https://via.placeholder.com/300x400"
-              }
+              src={imagePath ? imagePath : "/pinterest-logo.png"}
+              width={100}
+              height={100}
               alt="Preview"
               style={{
                 width: "100%",
@@ -86,7 +86,7 @@ export default function PostImageUploadPage() {
             display: "flex",
             mt: 4,
           }}
-        >
+        >q
           <Button
             variant="contained"
             sx={{

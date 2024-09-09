@@ -1,8 +1,8 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useState, Suspense} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
-import Image from 'next/image';
+import Image from "next/image";
 
 import {
   Typography,
@@ -30,10 +30,66 @@ export default function PostDetails() {
   const [showMoreOptions, setShowMoreOptions] = useState(false);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const imagePath = searchParams.get("imagePath");
-  const mapSnapshotPath = searchParams.get("mapSnapshotPath");
+  // Suspense-wrapped component for searchParams
+  function SearchParamsComponent() {
+    const searchParams = useSearchParams();
+    const imagePath = searchParams.get("imagePath");
+    const mapSnapshotPath = searchParams.get("mapSnapshotPath");
+
+    return (
+      <>
+        <Paper
+          variant="outlined"
+          sx={{
+            width: "100%",
+            paddingTop: "100%",
+            position: "relative",
+            borderRadius: "16px",
+            overflow: "hidden",
+          }}
+        >
+          <Image
+            src={decodeURIComponent(imagePath!)}
+            alt="Preview"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          />
+        </Paper>
+
+        <Paper
+          variant="outlined"
+          sx={{
+            width: "100%",
+            paddingTop: "50%",
+            position: "relative",
+            borderRadius: "16px",
+            overflow: "hidden",
+            mt: 1,
+          }}
+        >
+          <Image
+            src={decodeURIComponent(mapSnapshotPath!)}
+            alt="Preview"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          />
+        </Paper>
+      </>
+    );
+  }
 
   const handleBoardChange = (event: SelectChangeEvent) => {
     setBoard(event.target.value as string);
@@ -54,55 +110,10 @@ export default function PostDetails() {
       <Container maxWidth="lg" sx={{mt: 10}}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
-            {/* Image preview */}
-            <Paper
-              variant="outlined"
-              sx={{
-                width: "100%",
-                paddingTop: "100%",
-                position: "relative",
-                borderRadius: "16px",
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                src={decodeURIComponent(imagePath!)}
-                alt="Preview"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-              />
-            </Paper>
-
-            <Paper
-              variant="outlined"
-              sx={{
-                width: "100%",
-                paddingTop: "50%",
-                position: "relative",
-                borderRadius: "16px",
-                overflow: "hidden",
-                mt: 1,
-              }}
-            >
-              <Image
-                src={decodeURIComponent(mapSnapshotPath!)}
-                alt="Preview"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-              />
-            </Paper>
+            {/* Wrap the part that uses useSearchParams with Suspense */}
+            <Suspense fallback={<div>Loading...</div>}>
+              <SearchParamsComponent />
+            </Suspense>
           </Grid>
           <Grid item xs={12} sm={8}>
             <Box
@@ -174,7 +185,7 @@ export default function PostDetails() {
               {/* Additional Options */}
               <Button
                 onClick={toggleMoreOptions}
-                endIcon={<ExpandMoreIcon/>}
+                endIcon={<ExpandMoreIcon />}
                 sx={{color: "#000"}}
               >
                 その他のオプション

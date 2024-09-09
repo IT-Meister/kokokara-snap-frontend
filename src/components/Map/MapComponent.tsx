@@ -92,28 +92,30 @@ export default function MapComponent() {
         height: "100vh",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: 10,
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 2,
-        }}
-      >
-        <SearchBox
-          accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
-          map={mapRef.current!} // Safe because of mapLoaded check
-          // @ts-ignore
-          mapboxgl={mapboxgl}
-          value={inputValue}
-          // @ts-ignore
-          onChange={(d) => {
-            setInputValue(d);
+      {isMapReady && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 10,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 2,
           }}
-          marker
-        />
-      </Box>
+        >
+          <SearchBox
+            accessToken={`${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`}
+            map={mapRef.current!} // Safe because of mapLoaded check
+            // @ts-ignore
+            mapboxgl={mapboxgl}
+            value={inputValue}
+            // @ts-ignore
+            onChange={(d) => {
+              setInputValue(d);
+            }}
+            marker
+          />
+        </Box>
+      )}
       <Box
         ref={mapContainerRef}
         id="map"
