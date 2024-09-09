@@ -35,7 +35,6 @@ export default function PostDetails() {
   function SearchParamsComponent() {
     const searchParams = useSearchParams();
     const imagePath = searchParams.get("imagePath");
-    const mapSnapshotPath = searchParams.get("mapSnapshotPath");
 
     return (
       <>
@@ -51,31 +50,6 @@ export default function PostDetails() {
         >
           <Image
             src={decodeURIComponent(imagePath!)}
-            alt="Preview"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              position: "absolute",
-              top: 0,
-              left: 0,
-            }}
-          />
-        </Paper>
-
-        <Paper
-          variant="outlined"
-          sx={{
-            width: "100%",
-            paddingTop: "50%",
-            position: "relative",
-            borderRadius: "16px",
-            overflow: "hidden",
-            mt: 1,
-          }}
-        >
-          <Image
-            src={decodeURIComponent(mapSnapshotPath!)}
             alt="Preview"
             style={{
               width: "100%",

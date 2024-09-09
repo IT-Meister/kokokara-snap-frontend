@@ -3,48 +3,10 @@ import React, {useEffect, useRef, useState} from "react";
 import mapboxgl, {LngLatLike} from "mapbox-gl";
 import {SearchBox} from "@mapbox/search-js-react";
 import "mapbox-gl/dist/mapbox-gl.css";
-
 import {Box, Typography} from "@mui/material";
 
 import MapCustomMarker from "./MapCustomMarker";
 import PhotoDetailView from "./MapPhotoDetailsPanel";
-
-// DB
-const geojson = {
-  type: "FeatureCollection",
-  features: [
-    {
-      properties: {
-        message: "Foo",
-        imageId: 1011,
-        iconSize: [60, 60],
-      },
-      geometry: {
-        coordinates: [-66.324462, -16.024695],
-      },
-    },
-    {
-      properties: {
-        message: "Bar",
-        imageId: 870,
-        iconSize: [50, 50],
-      },
-      geometry: {
-        coordinates: [-61.21582, -15.971891],
-      },
-    },
-    {
-      properties: {
-        message: "Baz",
-        imageId: 837,
-        iconSize: [40, 40],
-      },
-      geometry: {
-        coordinates: [-63.292236, -18.281518],
-      },
-    },
-  ],
-};
 
 export default function MapComponent() {
   // Initialize with null instead of leaving it undefined
@@ -58,6 +20,43 @@ export default function MapComponent() {
     imageUrl: string;
     description: string;
   } | null>(null);
+
+  // DB
+  const geojson = {
+    type: "FeatureCollection",
+    features: [
+      {
+        properties: {
+          message: "Foo",
+          imageId: 1011,
+          iconSize: [60, 60],
+        },
+        geometry: {
+          coordinates: [-66.324462, -16.024695],
+        },
+      },
+      {
+        properties: {
+          message: "Bar",
+          imageId: 870,
+          iconSize: [50, 50],
+        },
+        geometry: {
+          coordinates: [-61.21582, -15.971891],
+        },
+      },
+      {
+        properties: {
+          message: "Baz",
+          imageId: 837,
+          iconSize: [40, 40],
+        },
+        geometry: {
+          coordinates: [-63.292236, -18.281518],
+        },
+      },
+    ],
+  };
 
   useEffect(() => {
     mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
@@ -134,28 +133,6 @@ export default function MapComponent() {
           selectedPhoto={selectedPhoto}
           setSelectedPhoto={setSelectedPhoto}
         />
-      </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%", // Full width of the parent container
-          textAlign: "center", // Ensure text is centered if it's multiline
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: 20,
-            mt: 2,
-            fontWeight: "bold", // Make the text bold
-          }}
-        >
-          もっと見る
-        </Typography>
-
-        {/* 近くの関連画像を表示 */}
       </Box>
     </Box>
   );
