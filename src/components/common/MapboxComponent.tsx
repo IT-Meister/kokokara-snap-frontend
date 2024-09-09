@@ -49,11 +49,6 @@ export default function MapboxComponent() {
 
   return (
     <div style={{width: "100%", height: "100%"}}>
-      <div
-        id="map"
-        ref={mapContainerRef}
-        style={{width: "100%", height: "100%"}}
-      ></div>
       {mapLoaded && (
         <SearchBox
           accessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!}
@@ -62,7 +57,11 @@ export default function MapboxComponent() {
           mapboxgl={mapboxgl}
         />
       )}
-      {moveEvent && <pre>{JSON.stringify(moveEvent.lngLat.wrap())}</pre>}
+      <div
+        id="map"
+        ref={mapContainerRef}
+        style={{width: "100%", height: "100%"}}
+      ></div>
     </div>
   );
 }

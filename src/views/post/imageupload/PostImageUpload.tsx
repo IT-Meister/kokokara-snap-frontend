@@ -64,8 +64,7 @@ export default function PostImageUploadPage() {
           >
             <Image
               src={imagePath ? imagePath : "/pinterest-logo.png"}
-              width={100}
-              height={100}
+              fill
               alt="Preview"
               style={{
                 width: "100%",
@@ -86,7 +85,7 @@ export default function PostImageUploadPage() {
             display: "flex",
             mt: 4,
           }}
-        >q
+        >
           <Button
             variant="contained"
             sx={{

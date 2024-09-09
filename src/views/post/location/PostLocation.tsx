@@ -1,9 +1,8 @@
 "use client";
 
-import {useRouter, useSearchParams} from "next/navigation";
+import React, {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 import Image from "next/image";
-
-import "mapbox-gl/dist/mapbox-gl.css";
 import {Box, Button, Paper} from "@mui/material";
 import dynamic from "next/dynamic";
 
@@ -16,16 +15,23 @@ const MapboxComponent = dynamic(
 );
 
 export default function PostLocation() {
-  const searchParams = useSearchParams();
-  const imagePath = searchParams.get("imagePath"); // Retrieve the imagePath data from the query parameters
+  const [imagePath, setImagePath] = useState<string | null>(null); // State for image path
   const router = useRouter();
+
+  useEffect(() => {
+    // Ensure this runs only on the client
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const path = searchParams.get("imagePath");
+      setImagePath(path); // Set the image path once available
+    }
+  }, []); // Runs only once when the component is mounted (client-side)
 
   const handleNextClick = () => {
     if (imagePath) {
-      // Here, we pass the Object URL via router push
       router.push(`/post/details?imagePath=${imagePath}`);
     } else {
-      alert("Please select an image and capture a map screenshot");
+      alert("Please select an image");
     }
   };
 
@@ -39,7 +45,7 @@ export default function PostLocation() {
       }}
     >
       {imagePath && (
-        <Paper // Image preview on the left side
+        <Paper
           variant="outlined"
           sx={{
             width: 800,
@@ -48,12 +54,13 @@ export default function PostLocation() {
             overflow: "hidden",
             display: "flex",
             backgroundColor: "#fafafa",
-            margin: "10px", // Add margin to the Paper component
+            margin: "10px",
           }}
         >
           <Image
-            src={decodeURIComponent(imagePath!)}
+            src={decodeURIComponent(imagePath)}
             alt="Preview"
+            fill
             style={{
               width: "100%",
               height: "100%",
@@ -72,10 +79,19 @@ export default function PostLocation() {
           justifyContent: "center", // Center horizontally
           alignItems: "center", // Center vertically
           flexDirection: "column", // Stack items vertically
-          margin: "10px", // Add margin to the container div
+          top: 44,
         }}
       >
-        <MapboxComponent />
+        {/* Mapbox */}
+        <Box
+          sx={{
+            display: "flex",
+            height: "100vh",
+            width: "100%", // Full width of the parent container
+          }}
+        >
+          <MapboxComponent />
+        </Box>
         {/* Next Button */}
         <Box
           className="Next Button"
