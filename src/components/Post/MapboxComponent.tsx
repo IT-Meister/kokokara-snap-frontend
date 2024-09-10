@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import mapboxgl, {MapMouseEvent} from "mapbox-gl";
 import {SearchBox} from "@mapbox/search-js-react";
 
-export default function MapboxComponent() {
+export default function LocationMapboxComponent() {
   const [moveEvent, setMoveEvent] = useState<MapMouseEvent | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<mapboxgl.Map | null>(null);

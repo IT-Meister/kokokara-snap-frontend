@@ -16,7 +16,7 @@ export default function MapPage() {
       }}
     >
       {/* Map Component */}
-      {/* <MapComponent /> */}
+      <MapComponent />
       <Box
         sx={{
           display: "flex",

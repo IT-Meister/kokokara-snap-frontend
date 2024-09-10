@@ -7,8 +7,8 @@ import {Box, Button, Paper} from "@mui/material";
 import dynamic from "next/dynamic";
 
 // Dynamically import the Mapbox component (client-side only)
-const MapboxComponent = dynamic(
-  () => import("@/components/common/MapboxComponent"),
+const LocationMapboxComponent = dynamic(
+  () => import("@/components/Post/MapboxComponent"),
   {
     ssr: false, // Disable server-side rendering for this component
   }
@@ -77,7 +77,7 @@ export default function PostLocation() {
           height: "100%",
           display: "flex",
           justifyContent: "center", // Center horizontally
-          alignItems: "center", // Center vertically
+          alignItems: "center", //s Center vertically
           flexDirection: "column", // Stack items vertically
           top: 44,
         }}
@@ -90,7 +90,7 @@ export default function PostLocation() {
             width: "100%", // Full width of the parent container
           }}
         >
-          <MapboxComponent />
+          <LocationMapboxComponent />
         </Box>
         {/* Next Button */}
         <Box
