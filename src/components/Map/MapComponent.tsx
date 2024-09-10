@@ -8,7 +8,7 @@ const MapboxComponent = dynamic(() => import("./MapboxComponent"), {
   ssr: false, // Disable server-side rendering
 });
 
-export default function PostLocation() {
+export default function MapComponent() {
   return (
     <div
       style={{
@@ -18,43 +18,8 @@ export default function PostLocation() {
         alignItems: "center",
       }}
     >
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          margin: "10px",
-        }}
-      >
-        {/* MapComponent is loaded dynamically */}
-        <MapboxComponent />
-
-        {/* Other content */}
-        <Box
-          sx={{
-            display: "flex",
-            mt: 2,
-            mb: 2,
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#e60023",
-              color: "#fff",
-              padding: "8px 24px",
-              fontSize: "16px",
-              fontWeight: "bold",
-            }}
-          >
-            次へ
-          </Button>
-        </Box>
-      </div>
+      {/* MapComponent is loaded dynamically */}
+      <MapboxComponent />
     </div>
   );
 }

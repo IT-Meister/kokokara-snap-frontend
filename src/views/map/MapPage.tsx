@@ -11,12 +11,19 @@ export default function MapPage() {
       style={{
         position: "relative",
         display: "flex",
+        flexDirection: "column", // Stack elements vertically
         height: "100vh",
         width: "100%",
       }}
     >
       {/* Map Component */}
-      <MapComponent />
+      <Box
+        sx={{
+          flex: 1, // Make MapComponent fill the available vertical space
+        }}
+      >
+        <MapComponent />
+      </Box>
       <Box
         sx={{
           display: "flex",
