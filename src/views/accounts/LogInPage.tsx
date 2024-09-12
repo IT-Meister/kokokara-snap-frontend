@@ -1,18 +1,57 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import {Google as GoogleIcon} from "@mui/icons-material";
 import {useRouter} from "next/navigation";
 
 export default function SignUpPage() {
   const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const handleForgetPassword = () => {
     router.push("/accounts/forget-password");
   };
 
   const handleClickSignUp = () => {
     router.push("/accounts/signup");
+  };
+
+  const handleClickLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent the form from reloading the page
+
+    try {
+      const response = await fetch("http://127.0.0.1:8080/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+
+      // Handle the login response (e.g., save token, redirect user)
+      console.log("Login successful:", data);
+      // Example: save token to localStorage
+      // localStorage.setItem("token", data.token);
+
+      // Redirect to the dashboard or home page
+      router.push("/dashboard");
+    } catch (error) {
+      setError("ログインに失敗しました。もう一度お試しください。");
+      console.error("Error during login:", error);
+    }
   };
 
   return (
@@ -32,7 +71,8 @@ export default function SignUpPage() {
         borderRadius="8px"
         boxShadow="0 4px 12px rgba(0, 0, 0, 0.1)"
         bgcolor="#fff"
-        component="form" // The Box acts as the form element
+        component="form"
+        onSubmit={handleClickLogin} // Form submission handled here
       >
         <Typography variant="h4" component="h1" gutterBottom>
           ログイン
@@ -48,6 +88,8 @@ export default function SignUpPage() {
           margin="normal"
           type="email"
           required={true}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)} // Capture email input
         />
         <TextField
           fullWidth
@@ -56,9 +98,16 @@ export default function SignUpPage() {
           margin="normal"
           type="password"
           required={true}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} // Capture password input
         />
+        {error && (
+          <Typography color="error" variant="body2">
+            {error}
+          </Typography>
+        )}
         <Button
-          type="submit"
+          type="submit" // Let the form handle submission
           fullWidth
           variant="contained"
           color="primary"
