@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 
 // Dynamically import the Mapbox component (client-side only)
 const LocationMapboxComponent = dynamic(
-  () => import("@/components/Post/MapboxComponent"),
+  () => import("@/components/Post/LocationMapboxComponent"),
   {
     ssr: false, // Disable server-side rendering for this component
   }
