@@ -16,11 +16,14 @@ import {
 } from "@mui/material";
 
 import SearchBar from "./SearchBar/SearchBar"; // Import the SearchBar component
+import {useSetUser, useUser} from "@/libs/store/store";
 
 export default function Headeraa() {
   const [activeButton, setActiveButton] = useState<string>("home");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const router = useRouter();
+  const user = useUser();
+  const setUser = useSetUser();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,6 +43,12 @@ export default function Headeraa() {
     // Handle settings click
   };
 
+  const handleLogoutClick = () => {
+    // Handle logout
+    // setUser({});
+    window.location.reload();
+  };
+
   const handleLoginClick = () => {
     router.push("/accounts/login");
   };
@@ -53,6 +62,10 @@ export default function Headeraa() {
     setActiveButton("post");
     router.push("/post/imageupload"); // Adjust the route as needed
   };
+
+  function isEmptyUser(dictionary: Record<string, any>): boolean {
+    return Object.keys(dictionary).length === 0;
+  }
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -113,23 +126,29 @@ export default function Headeraa() {
             <SearchBar /> {/* Insert the SearchBar here */}
           </Box>
           {/* ログイン Button */}
-          <Button
-            sx={{
-              ml: 2,
-              fontWeight: "bold",
-              color: "white",
-              backgroundColor: "#b30000", // Slightly darker red
-              padding: "8px 20px",
-              borderRadius: "24px",
-              "&:hover": {
-                backgroundColor: "#800000", // Darker red on hover
-              },
-            }}
-            onClick={handleLoginClick}
+          {isEmptyUser(user) && (
+            <Button
+              sx={{
+                ml: 2,
+                fontWeight: "bold",
+                color: "white",
+                backgroundColor: "#b30000", // Slightly darker red
+                padding: "8px 20px",
+                borderRadius: "24px",
+                "&:hover": {
+                  backgroundColor: "#800000", // Darker red on hover
+                },
+              }}
+              onClick={handleLoginClick}
+            >
+              ログイン
+            </Button>
+          )}
+          <IconButton
+            onClick={handleMenuOpen}
+            edge="end"
+            sx={{height: 60, ml: 1}}
           >
-            ログイン
-          </Button>
-          <IconButton onClick={handleMenuOpen} edge="end" sx={{height: 60}}>
             {" "}
             {/* Adjust the size here */}
             <Avatar
@@ -150,8 +169,12 @@ export default function Headeraa() {
               horizontal: "right",
             }}
           >
-            <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-            <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
+            <MenuItem>{user["displayName"]}</MenuItem>
+            <MenuItem onClick={handleProfileClick}>プロフィール</MenuItem>
+            <MenuItem onClick={handleSettingsClick}>設定</MenuItem>
+            <MenuItem onClick={handleLogoutClick} sx={{color: "red"}}>
+              ログアウト
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>
