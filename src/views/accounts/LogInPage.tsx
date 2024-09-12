@@ -46,9 +46,7 @@ export default function SignUpPage() {
 
       // Handle the login response (e.g., save token, redirect user)
       setUser(data["data"]);
-      console.log("Login successful:", user);
-      // Example: save token to localStorage
-      // localStorage.setItem("token", data.token);
+      // console.log("Login successful:", user);
 
       // Redirect to the dashboard or home page
       router.push("/");
