@@ -4,9 +4,12 @@ import React, {useState} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import {Google as GoogleIcon} from "@mui/icons-material";
 import {useRouter} from "next/navigation";
+import {useUser, useSetUser} from "@/libs/store/store";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const user = useUser();
+  const setUser = useSetUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,12 +45,13 @@ export default function SignUpPage() {
       const data = await response.json();
 
       // Handle the login response (e.g., save token, redirect user)
-      console.log("Login successful:", data);
+      setUser(data["data"]);
+      console.log("Login successful:", user);
       // Example: save token to localStorage
       // localStorage.setItem("token", data.token);
 
       // Redirect to the dashboard or home page
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       setError("ログインに失敗しました。もう一度お試しください。");
       console.error("Error during login:", error);
