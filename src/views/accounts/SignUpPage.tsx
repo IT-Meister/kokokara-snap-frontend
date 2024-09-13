@@ -20,9 +20,10 @@ import {DataConstants} from "@/constants/data";
 export default function SignUpPage() {
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
+  const [displayName, setDisplayname] = useState("");
   const [email, setEmail] = useState("");
-  const [prefecture, setPrefecture] = useState<number | "">(""); // Use number for prefecture value
+  const [prefecture, setPrefecture] = useState<number | "">(13); // Use number for prefecture value
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -70,7 +71,8 @@ export default function SignUpPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username,
+          userName,
+          displayName,
           email,
           password,
           prefecture,
@@ -78,7 +80,7 @@ export default function SignUpPage() {
       });
 
       if (!response.ok) {
-        console.log(username, email, password, prefecture);
+        console.log(userName, displayName, email, password, prefecture);
         throw new Error("Signup failed");
       }
 
@@ -126,8 +128,19 @@ export default function SignUpPage() {
           variant="outlined"
           margin="normal"
           required={true}
-          value={username}
+          value={userName}
           onChange={(e) => setUsername(e.target.value)} // Capture username
+        />
+
+        {/* Display Name */}
+        <TextField
+          fullWidth
+          label="ディスプレイ名"
+          variant="outlined"
+          margin="normal"
+          required={true}
+          value={displayName}
+          onChange={(e) => setDisplayname(e.target.value)} // Capture username
         />
 
         {/* Email */}
