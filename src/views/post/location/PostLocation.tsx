@@ -29,7 +29,7 @@ export default function PostLocation() {
 
   const handleNextClick = () => {
     if (imagePath) {
-      router.push(`/post/details?imagePath=${imagePath}`);
+      router.push(`/post/details?imagePath=${imagePath}&`);
     } else {
       alert("Please select an image");
     }
