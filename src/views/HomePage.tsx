@@ -17,13 +17,16 @@ import {Search as SearchIcon} from "@mui/icons-material";
 
 import HomePhotoModal from "@/components/Home/HomePhotoModal";
 import mockPosts, {Post} from "../mock-data/mockPosts";
+import {useUser} from "@/libs/store/store";
 
 export default function HomePage() {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const prefecture = 1; // assuming this comes from somewhere
+
+  const user = useUser();
+  const prefecture = user["prefecture"];
 
   const handleOpenModal = (post: Post) => {
     setSelectedPost(post);
@@ -34,18 +37,19 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchPosts = async (prefecture: String) => {
       setLoading(true); // Start loading before the fetch
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8080/api/v1/post?prefecture=${prefecture}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const url = prefecture
+          ? "http://127.0.0.1:8080/api/v1/post?prefecture=${prefecture}"
+          : "http://127.0.0.1:8080/api/v1/post";
+
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
@@ -63,7 +67,7 @@ export default function HomePage() {
     };
 
     if (prefecture) {
-      fetchPosts();
+      fetchPosts(prefecture);
     }
   }, [prefecture]); // Adding prefecture to dependency array
 
