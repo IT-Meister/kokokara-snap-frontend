@@ -36,12 +36,17 @@ export default function HomePage() {
     setSelectedPost(null);
   };
 
+  function isEmptyUser(dictionary: Record<string, any>): boolean {
+    return Object.keys(dictionary).length === 0;
+  }
+
   useEffect(() => {
-    const fetchPosts = async (prefecture: String) => {
+    const fetchPosts = async () => {
       setLoading(true); // Start loading before the fetch
+
       try {
-        const url = prefecture
-          ? "http://127.0.0.1:8080/api/v1/post?prefecture=${prefecture}"
+        const url = isEmptyUser(user)
+          ? `http://127.0.0.1:8080/api/v1/post?prefecture=${prefecture}`
           : "http://127.0.0.1:8080/api/v1/post";
 
         const response = await fetch(url, {
@@ -66,10 +71,8 @@ export default function HomePage() {
       }
     };
 
-    if (prefecture) {
-      fetchPosts(prefecture);
-    }
-  }, [prefecture]); // Adding prefecture to dependency array
+    fetchPosts();
+  }, []);
 
   return (
     <Container maxWidth="lg">
