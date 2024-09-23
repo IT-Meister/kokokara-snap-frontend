@@ -1,18 +1,10 @@
 import React, {useEffect} from "react";
 import mapboxgl, {LngLatLike} from "mapbox-gl";
+import {PostData} from "@/types/PostData";
 
 interface MarkerComponentProps {
   mapRef: React.RefObject<mapboxgl.Map>;
-  marker: {
-    properties: {
-      message: string;
-      imageId: number;
-      iconSize: number[];
-    };
-    geometry: {
-      coordinates: number[];
-    };
-  };
+  data: PostData;
   setSelectedPhoto: (photo: {
     title: string;
     imageUrl: string;
@@ -22,16 +14,16 @@ interface MarkerComponentProps {
 
 const MarkerComponent: React.FC<MarkerComponentProps> = ({
   mapRef,
-  marker,
+  data,
   setSelectedPhoto,
 }) => {
   useEffect(() => {
     const el = document.createElement("div");
-    const width = marker.properties.iconSize[0];
-    const height = marker.properties.iconSize[1];
+    const width = 40;
+    const height = 40;
 
     el.className = "marker";
-    el.style.backgroundImage = `url(https://picsum.photos/id/${marker.properties.imageId}/${width}/${height})`;
+    el.style.backgroundImage = data.url;
     el.style.width = `${width}px`;
     el.style.height = `${height}px`;
     el.style.backgroundSize = "100%";
@@ -44,9 +36,9 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
     // click action
     el.addEventListener("click", () => {
       setSelectedPhoto({
-        title: marker.properties.message,
-        imageUrl: `https://picsum.photos/id/${marker.properties.imageId}/600/400`,
-        description: marker.properties.message,
+        title: data.title,
+        imageUrl: data.url,
+        description: data.description,
       });
     });
 
@@ -57,15 +49,15 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
       closeOnClick: false,
     }).setHTML(`
       <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="https://picsum.photos/id/${marker.properties.imageId}/100/100" alt="Popup Image" style="border-radius: 8px; margin-bottom: 8px;" />
-        <p style="margin: 0; font-size: 14px; text-align: center;">${marker.properties.message}</p>
+        <img src=${data.url} alt="Popup Image" style="border-radius: 8px; margin-bottom: 8px;" />
+        <p style="margin: 0; font-size: 14px; text-align: center;">${data.description}</p>
       </div>
     `);
 
     // show popup when hovers
     el.addEventListener("mouseover", () => {
       popup
-        .setLngLat(marker.geometry.coordinates as LngLatLike)
+        .setLngLat([data.longitude, data.latitude] as LngLatLike)
         .addTo(mapRef.current!);
     });
 
@@ -74,10 +66,10 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
     });
 
     new mapboxgl.Marker(el)
-      .setLngLat(marker.geometry.coordinates as LngLatLike)
+      .setLngLat([data.longitude, data.latitude] as LngLatLike)
       .setPopup(popup)
       .addTo(mapRef.current!);
-  }, [marker, mapRef, setSelectedPhoto]);
+  }, [data, mapRef, setSelectedPhoto]);
 
   return null;
 };

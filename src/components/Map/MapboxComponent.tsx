@@ -7,6 +7,7 @@ import {Box} from "@mui/material";
 
 import MapCustomMarker from "./MapCustomMarker";
 import PhotoDetailView from "./MapPhotoDetailsPanel";
+import {PostData} from "@/types/PostData";
 
 export default function MapboxComponent() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -14,47 +15,15 @@ export default function MapboxComponent() {
   const [inputValue, setInputValue] = useState("");
   const [isMapReady, setIsMapReady] = useState(false);
 
+  const [data, setData] = useState<PostData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [selectedPhoto, setSelectedPhoto] = useState<{
     title: string;
     imageUrl: string;
     description: string;
   } | null>(null);
-
-  const geojson = {
-    type: "FeatureCollection",
-    features: [
-      {
-        properties: {
-          message: "Foo",
-          imageId: 1011,
-          iconSize: [60, 60],
-        },
-        geometry: {
-          coordinates: [-66.324462, -16.024695],
-        },
-      },
-      {
-        properties: {
-          message: "Bar",
-          imageId: 870,
-          iconSize: [50, 50],
-        },
-        geometry: {
-          coordinates: [-61.21582, -15.971891],
-        },
-      },
-      {
-        properties: {
-          message: "Baz",
-          imageId: 837,
-          iconSize: [40, 40],
-        },
-        geometry: {
-          coordinates: [-63.292236, -18.281518],
-        },
-      },
-    ],
-  };
 
   useEffect(() => {
     mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
@@ -62,8 +31,8 @@ export default function MapboxComponent() {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: "mapbox://styles/mapbox/streets-v11",
-        center: [-65.017, -16.457],
-        zoom: 6,
+        center: [-73.96, 40.78],
+        zoom: 11,
         attributionControl: false,
       });
 
@@ -71,6 +40,28 @@ export default function MapboxComponent() {
         setIsMapReady(true);
       });
     }
+
+    // fetch post data
+    async function fetchData() {
+      var latLong = mapRef.current?.getCenter();
+      var zoom = mapRef.current?.getZoom();
+      try {
+        const res = await fetch(
+          "http://127.0.0.1:8080/api/v1/post/map?latitude=40.78&longitude=-73.96&zoom=20"
+        );
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const jsonData = await res.json();
+        setData(jsonData.data);
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
 
     return () => {
       if (mapRef.current) {
@@ -116,15 +107,16 @@ export default function MapboxComponent() {
         id="map"
         sx={{height: "800px", borderRadius: 8}}
       >
-        {isMapReady &&
-          geojson.features.map((marker, index) => (
+        {!loading &&
+          data.map((data, index) => (
             <MapCustomMarker
               key={index}
               mapRef={mapRef}
-              marker={marker}
+              data={data}
               setSelectedPhoto={setSelectedPhoto}
             />
           ))}
+
         <PhotoDetailView
           selectedPhoto={selectedPhoto}
           setSelectedPhoto={setSelectedPhoto}
