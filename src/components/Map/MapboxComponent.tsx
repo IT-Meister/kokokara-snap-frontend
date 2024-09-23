@@ -8,6 +8,7 @@ import {Box} from "@mui/material";
 import MapCustomMarker from "./MapCustomMarker";
 import PhotoDetailView from "./MapPhotoDetailsPanel";
 import {PostData} from "@/types/PostData";
+import {useUser} from "@/libs/store/store";
 
 export default function MapboxComponent() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -24,6 +25,8 @@ export default function MapboxComponent() {
     imageUrl: string;
     description: string;
   } | null>(null);
+
+  const user = useUser();
 
   useEffect(() => {
     mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
@@ -43,11 +46,12 @@ export default function MapboxComponent() {
 
     // fetch post data
     async function fetchData() {
-      var latLong = mapRef.current?.getCenter();
+      var latLng = mapRef.current?.getCenter();
       var zoom = mapRef.current?.getZoom();
       try {
         const res = await fetch(
           "http://127.0.0.1:8080/api/v1/post/map?latitude=40.78&longitude=-73.96&zoom=20"
+          // `http://127.0.0.1:8080/api/v1/post/map?latitude=${latLng?.lat}&longitude=${latLng?.lng}&zoom=${zoom}`
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
