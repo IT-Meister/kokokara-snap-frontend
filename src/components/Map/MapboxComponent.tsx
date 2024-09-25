@@ -6,7 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import {Box} from "@mui/material";
 
 import MapCustomMarker from "./MapCustomMarker";
-import PhotoDetailView from "./MapPhotoDetailsPanel";
+import PhotoDetailView from "./MapPostDetailsPanel";
 import {PostData} from "@/types/PostData";
 import {useUser} from "@/libs/store/store";
 import {mockPostData} from "@/mock-data/mockPosts";
@@ -21,12 +21,7 @@ export default function MapboxComponent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [selectedPhoto, setSelectedPhoto] = useState<{
-    title: string;
-    imageUrl: string;
-    description: string;
-  } | null>(null);
-
+  const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
   const user = useUser();
 
   useEffect(() => {
@@ -121,13 +116,13 @@ export default function MapboxComponent() {
               key={index}
               mapRef={mapRef}
               data={data}
-              setSelectedPhoto={setSelectedPhoto}
+              setSelectedPost={setSelectedPost}
             />
           ))}
 
         <PhotoDetailView
-          selectedPhoto={selectedPhoto}
-          setSelectedPhoto={setSelectedPhoto}
+          selectedPost={selectedPost}
+          setSelectedPost={setSelectedPost}
         />
       </Box>
     </Box>

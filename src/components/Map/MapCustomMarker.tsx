@@ -5,17 +5,13 @@ import {PostData} from "@/types/PostData";
 interface MarkerComponentProps {
   mapRef: React.RefObject<mapboxgl.Map>;
   data: PostData;
-  setSelectedPhoto: (photo: {
-    title: string;
-    imageUrl: string;
-    description: string;
-  }) => void;
+  setSelectedPost: React.Dispatch<React.SetStateAction<PostData | null>>;
 }
 
 const MarkerComponent: React.FC<MarkerComponentProps> = ({
   mapRef,
   data,
-  setSelectedPhoto,
+  setSelectedPost,
 }) => {
   useEffect(() => {
     const el = document.createElement("div");
@@ -35,11 +31,7 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
 
     // click action
     el.addEventListener("click", () => {
-      setSelectedPhoto({
-        title: data.title,
-        imageUrl: data.url,
-        description: data.description,
-      });
+      setSelectedPost(data);
     });
 
     // custom popup
@@ -69,7 +61,7 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
       .setLngLat([data.longitude, data.latitude] as LngLatLike)
       .setPopup(popup)
       .addTo(mapRef.current!);
-  }, [data, mapRef, setSelectedPhoto]);
+  }, [data, mapRef, setSelectedPost]);
 
   return null;
 };
