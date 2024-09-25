@@ -16,6 +16,7 @@ const LocationMapboxComponent = dynamic(
 
 export default function PostLocation() {
   const [imagePath, setImagePath] = useState<string | null>(null); // State for image path
+  const [angle, setAngle] = useState<number>(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function PostLocation() {
 
   const handleNextClick = () => {
     if (imagePath) {
-      router.push(`/post/details?imagePath=${imagePath}&`);
+      router.push(`/post/details?imagePath=${imagePath}&angle=${angle}`);
     } else {
       alert("Please select an image");
     }

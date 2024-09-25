@@ -11,12 +11,8 @@ import {
   Container,
   Box,
   Paper,
-  MenuItem,
-  Select,
-  FormControl,
   Collapse,
   Grid,
-  SelectChangeEvent,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -29,11 +25,13 @@ export default function PostDetails() {
   const [cameraName, setCameraName] = useState("");
   const [isPrimary, setIsPrimary] = useState(false);
   const [snapTime, setSnapTime] = useState("");
-  const [angle, setAngle] = useState("");
   const [iso, setIso] = useState("");
   const [fValue, setFValue] = useState("");
   const [shutterSpeed, setShutterSpeed] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+
+  const searchParams = useSearchParams();
+  const angle = searchParams.get("angle");
 
   const router = useRouter();
   // const pic_url = decodeURIComponent(imagePath || ""); // pic_url is required
@@ -192,15 +190,6 @@ export default function PostDetails() {
                 InputLabelProps={{
                   shrink: true,
                 }}
-              />
-              <TextField
-                label="角度"
-                placeholder="角度を追加する"
-                variant="outlined"
-                fullWidth
-                sx={{mb: 2}}
-                value={angle}
-                onChange={(e) => setAngle(e.target.value)}
               />
               <TextField
                 label="ISO"
