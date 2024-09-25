@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Image from "next/image";
 
 import {Box, Typography, CardMedia, IconButton, Modal} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
