@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Image from 'next/image';
 
 import {Box, Typography, CardMedia, IconButton, Modal} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,28 +6,19 @@ import {useRouter} from "next/navigation";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 
 import CustomProfileIcon from "../common/CustomProfileIcon";
+import {PostData} from "@/types/PostData";
 
-interface PhotoDetailViewProps {
-  selectedPhoto: {
-    title: string;
-    imageUrl: string;
-    description: string;
-  } | null;
-  setSelectedPhoto: React.Dispatch<
-    React.SetStateAction<{
-      title: string;
-      imageUrl: string;
-      description: string;
-    } | null>
-  >;
+interface PostDetailViewProps {
+  selectedPost: PostData | null;
+  setSelectedPost: React.Dispatch<React.SetStateAction<PostData | null>>;
 }
 
-export default function PhotoDetailView(props: PhotoDetailViewProps) {
+export default function PostDetailView(props: PostDetailViewProps) {
   const router = useRouter();
-  const {selectedPhoto, setSelectedPhoto} = props;
+  const {selectedPost, setSelectedPost} = props;
   const [showModal, setShowModal] = useState<boolean>(false);
   const handleClose = () => {
-    setSelectedPhoto(null);
+    setSelectedPost(null);
   };
 
   const handleOpenInFull = () => {
@@ -45,21 +35,22 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
 
   return (
     <Box>
-      {selectedPhoto && (
+      {selectedPost && (
         <Box
           sx={{
             position: "relative",
             right: 0,
             m: 2,
-            width: "40%", // 1/4 of the map's width
+            width: "40%", // 40% of the map's width
             height: "750px",
             bgcolor: "background.paper",
             boxShadow: 24,
-            zIndex: 1, // Ensure it appears above the map
-            borderRadius: 4, // Change the roundness of the corners
+            zIndex: 1,
+            borderRadius: 4,
             p: 2,
             display: "flex",
             flexDirection: "column",
+            overflow: "hidden",
           }}
         >
           <Box
@@ -75,11 +66,12 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
               <CloseIcon />
             </IconButton>
           </Box>
+
+          {/* Image section */}
           <Box
             sx={{
               width: "100%",
-              maxWidth: "100%",
-              maxHeight: "100%",
+              height: "300px", // Set height for the image section
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -87,8 +79,8 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
           >
             <CardMedia
               component="img"
-              image={selectedPhoto?.imageUrl}
-              alt={selectedPhoto?.title}
+              image={selectedPost.url}
+              alt={selectedPost.title}
               sx={{
                 maxWidth: "100%",
                 maxHeight: "100%",
@@ -97,26 +89,31 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
               }}
             />
           </Box>
+
+          {/* Profile icon and description */}
           <Box
             sx={{
-              p: 2,
+              display: "flex",
+              alignItems: "center",
+              mt: 2,
             }}
           >
             <CustomProfileIcon src="/mockProfile1.jpg" size={50} />
+            <Typography variant="h6" component="h2" sx={{ml: 2}}>
+              {selectedPost.title}
+            </Typography>
           </Box>
+
+          {/* Description */}
           <Box
             sx={{
-              width: "60%",
               padding: 2,
-              overflowY: "auto",
+              flex: 1,
+              overflowY: "auto", // Ensure long descriptions scroll
+              mt: 2,
             }}
           >
-            <Typography variant="h6" component="h2" sx={{mb: 2}}>
-              {selectedPhoto?.title}
-            </Typography>
-            <Typography variant="body1" sx={{mt: 2}}>
-              {selectedPhoto?.description}
-            </Typography>
+            <Typography variant="body1">{selectedPost.description}</Typography>
           </Box>
 
           <Box
@@ -140,19 +137,24 @@ export default function PhotoDetailView(props: PhotoDetailViewProps) {
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                width: "80%",
-                height: "80%",
-                maxWidth: "80vw",
-                maxHeight: "80vh",
+                maxHeight: "80%",
+                maxWidth: "90%",
                 bgcolor: "background.paper",
                 boxShadow: 24,
-                p: 2,
-                borderRadius: 4,
                 display: "flex",
-                flexDirection: "row", // Aligns CardMedia and content side by side
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <Image src={selectedPhoto?.imageUrl} alt={selectedPhoto?.title} />
+              <img
+                src={selectedPost?.url}
+                alt="Modal"
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "contain",
+                }}
+              />
 
               <Box
                 sx={{
