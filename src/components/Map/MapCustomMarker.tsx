@@ -19,14 +19,14 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
 }) => {
   useEffect(() => {
     const el = document.createElement("div");
-    const width = 40;
-    const height = 40;
+    const width = 50;
+    const height = 50;
 
     el.className = "marker";
-    el.style.backgroundImage = data.url;
+    el.style.backgroundImage = `url(${data.url})`;
     el.style.width = `${width}px`;
     el.style.height = `${height}px`;
-    el.style.backgroundSize = "100%";
+    el.style.backgroundSize = "cover";
     el.style.display = "block";
     el.style.border = "none";
     el.style.borderRadius = "50%";
@@ -48,9 +48,9 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
       closeButton: false,
       closeOnClick: false,
     }).setHTML(`
-      <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src=${data.url} alt="Popup Image" style="border-radius: 8px; margin-bottom: 8px;" />
-        <p style="margin: 0; font-size: 14px; text-align: center;">${data.description}</p>
+      <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; max-width: 200px; border-radius: 12px; overflow: hidden;">
+        <img src="${data.url}" alt="${data.title}" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px;" />
+        <p style="margin: 0; font-size: 14px; text-align: center; word-wrap: break-word;">${data.description}</p>
       </div>
     `);
 

@@ -9,6 +9,7 @@ import MapCustomMarker from "./MapCustomMarker";
 import PhotoDetailView from "./MapPhotoDetailsPanel";
 import {PostData} from "@/types/PostData";
 import {useUser} from "@/libs/store/store";
+import {mockPostData} from "@/mock-data/mockPosts";
 
 export default function MapboxComponent() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -33,9 +34,9 @@ export default function MapboxComponent() {
     if (mapContainerRef.current) {
       mapRef.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/streets-v11",
-        center: [-73.96, 40.78],
-        zoom: 11,
+        style: "mapbox://styles/mapbox/streets-v8",
+        center: [139.75, 35.6764],
+        zoom: 12,
         attributionControl: false,
       });
 
@@ -51,6 +52,8 @@ export default function MapboxComponent() {
       try {
         const res = await fetch(
           "http://127.0.0.1:8080/api/v1/post/map?latitude=40.78&longitude=-73.96&zoom=20"
+
+          // use this URL
           // `http://127.0.0.1:8080/api/v1/post/map?latitude=${latLng?.lat}&longitude=${latLng?.lng}&zoom=${zoom}`
         );
         if (!res.ok) {
@@ -58,8 +61,9 @@ export default function MapboxComponent() {
         }
         const jsonData = await res.json();
         setData(jsonData.data);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (e: any) {
+        setError(e.message);
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -112,7 +116,7 @@ export default function MapboxComponent() {
         sx={{height: "800px", borderRadius: 8}}
       >
         {!loading &&
-          data.map((data, index) => (
+          mockPostData.map((data, index) => (
             <MapCustomMarker
               key={index}
               mapRef={mapRef}

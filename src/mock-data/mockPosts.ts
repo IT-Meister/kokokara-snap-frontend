@@ -1,73 +1,89 @@
-export interface Post {
-    id: number;
-    title: string;
-    description: string;
-    url: string;
-  }
-  
-  const mockPosts: Post[] = [
-    {
-      id: 1,
-      title: "Sunset Over the Mountains",
-      description: "A breathtaking sunset over the mountains.",
-      url: "/mockImages/post1.jpg"
+import { PostData } from "@/types/PostData";
 
-    },
-    {
-      id: 2,
-      title: "Forest Path",
-      description: "A serene path through a lush green forest.",
-      url: "/mockImages/post2.jpg"
-    },
-    {
-      id: 3,
-      title: "City Skyline",
-      description: "A stunning view of the city skyline at night.",
-      url: "/mockImages/post3.jpg"
-    },
-    {
-      id: 4,
-      title: "Beach at Dawn",
-      description: "A peaceful beach scene at dawn with gentle waves.",
-      url: "/mockImages/post4.jpg"
-    },
-    {
-      id: 5,
-      title: "Desert Dunes",
-      description: "Golden sand dunes under a clear blue sky.",
-      url: "/mockImages/post5.jpg"
-    },
-    {
-      id: 6,
-      title: "Mountain Lake",
-      description: "A crystal-clear lake surrounded by mountains.",
-      url: "/mockImages/post6.jpg"
-    },
-    {
-      id: 7,
-      title: "Snowy Forest",
-      description: "A quiet forest blanketed in snow.",
-      url: "/mockImages/post7.jpg"
-    },
-    {
-      id: 8,
-      title: "Flower Field",
-      description: "A vibrant field of colorful wildflowers.",
-      url: "/mockImages/post8.jpg"
-    },
-    {
-      id: 9,
-      title: "Ocean Waves",
-      description: "Powerful waves crashing against rocky cliffs.",
-      url: "/mockImages/post9.jpg"
-    },
-    {
-      id: 10,
-      title: "Starry Night",
-      description: "A mesmerizing view of the starry night sky.",
-      url: "/mockImages/post10.jpg"
-    }
-  ];
-  
-  export default mockPosts;
-  
+export const mockPostData: PostData[] = [
+  {
+    user_id: 1,
+    url: "/mockImages/post9.jpg",
+    title: 'Shibuya Crossing',
+    prefecture: 13,  // Tokyo prefecture code
+    city_name: 'Shibuya',
+    description: 'A busy intersection in Tokyo with neon lights.',
+    brand: 'Canon',
+    camera_name: 'Canon EOS R5',
+    latitude: 35.6595,
+    longitude: 139.7005,
+    snap_time: '2024-09-25T12:30:00',
+    angle: 45,
+    iso: '400',
+    shutter_speed: '1/200',
+    f_value: 5.6,
+  },
+  {
+    user_id: 2,
+    url: "/mockImages/post1.jpg",
+    title: 'Tokyo Tower at Night',
+    prefecture: 13,
+    city_name: 'Minato',
+    description: 'A night view of the iconic Tokyo Tower.',
+    brand: 'Nikon',
+    camera_name: 'Nikon Z7',
+    latitude: 35.6586,
+    longitude: 139.7454,
+    snap_time: '2024-09-24T19:45:00',
+    angle: 30,
+    iso: '800',
+    shutter_speed: '1/60',
+    f_value: 4.0,
+  },
+  {
+    user_id: 3,
+    url: "/mockImages/post2.jpg",
+    title: 'Cherry Blossoms at Ueno Park',
+    prefecture: 13,
+    city_name: 'Taito',
+    description: 'Beautiful cherry blossoms in full bloom at Ueno Park.',
+    brand: 'Sony',
+    camera_name: 'Sony A7 III',
+    latitude: 35.7138,
+    longitude: 139.7731,
+    snap_time: '2024-04-10T14:00:00',
+    angle: 60,
+    iso: '200',
+    shutter_speed: '1/320',
+    f_value: 2.8,
+  },
+  {
+    user_id: 4,
+    url: "/mockImages/post4.jpg",
+    title: 'Asakusa Sensoji Temple',
+    prefecture: 13,
+    city_name: 'Taito',
+    description: 'A famous historical temple in Tokyo.',
+    brand: 'Fujifilm',
+    camera_name: 'Fujifilm X-T4',
+    latitude: 35.7148,
+    longitude: 139.7967,
+    snap_time: '2024-08-20T10:15:00',
+    angle: 90,
+    iso: '100',
+    shutter_speed: '1/500',
+    f_value: 3.5,
+  },
+  {
+    user_id: 5,
+    url: "/mockImages/post5.jpg",
+    title: 'Odaiba Rainbow Bridge',
+    prefecture: 13,
+    city_name: 'Minato',
+    description: 'A view of the Rainbow Bridge with the Tokyo skyline.',
+    brand: 'Panasonic',
+    camera_name: 'Panasonic Lumix GH5',
+    latitude: 35.6275,
+    longitude: 139.7713,
+    snap_time: '2024-07-15T18:30:00',
+    angle: 75,
+    iso: '640',
+    shutter_speed: '1/250',
+    f_value: 4.5,
+  },
+];
