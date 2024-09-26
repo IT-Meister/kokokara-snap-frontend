@@ -7,11 +7,18 @@ import RotateRightIcon from "@mui/icons-material/RotateRight";
 import {Box, IconButton} from "@mui/material";
 import {useMapMarker} from "./LocationMapMarker";
 
-export default function LocationMapboxComponent() {
+interface MapComponentProps {
+  markerRotation: number;
+  setMarkerRotation: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export default function LocationMapboxComponent({
+  markerRotation,
+  setMarkerRotation,
+}: MapComponentProps) {
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const [markerRotation, setMarkerRotation] = useState<number>(0); // State to keep track of marker rotation
 
   useEffect(() => {
     // Ensure this runs only on the client side

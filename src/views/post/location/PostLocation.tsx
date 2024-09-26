@@ -91,7 +91,10 @@ export default function PostLocation() {
             width: "100%", // Full width of the parent container
           }}
         >
-          <LocationMapboxComponent />
+          <LocationMapboxComponent
+            markerRotation={angle}
+            setMarkerRotation={setAngle}
+          />
         </Box>
         {/* Next Button */}
         <Box
