@@ -46,8 +46,8 @@ export default function HomePage() {
 
       try {
         const url = isEmptyUser(user)
-          ? `http://127.0.0.1:8080/api/v1/post?prefecture=${prefecture}`
-          : "http://127.0.0.1:8080/api/v1/post";
+          ? "http://127.0.0.1:8080/api/v1/post/home"
+          : `http://127.0.0.1:8080/api/v1/post/home?prefecture=${prefecture}`;
 
         const response = await fetch(url, {
           method: "GET",
