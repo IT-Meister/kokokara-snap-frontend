@@ -16,19 +16,19 @@ import {
 import {Search as SearchIcon} from "@mui/icons-material";
 
 import HomePhotoModal from "@/components/Home/HomePhotoModal";
-import mockPosts, {Post} from "../mock-data/mockPosts";
 import {useUser} from "@/libs/store/store";
+import {PostData} from "@/types/PostData";
 
 export default function HomePage() {
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
+  const [posts, setPosts] = useState<PostData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const user = useUser();
   const prefecture = user["prefecture"];
 
-  const handleOpenModal = (post: Post) => {
+  const handleOpenModal = (post: PostData) => {
     setSelectedPost(post);
   };
 
@@ -61,9 +61,8 @@ export default function HomePage() {
         }
 
         const data = await response.json();
-        console.log(data);
 
-        setPosts(data); // Assuming the data is an array of posts
+        setPosts(data.data); // Assuming the data is an array of posts
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -125,13 +124,14 @@ export default function HomePage() {
           </Box>
         )}
         {!loading &&
-          posts.map((post) => (
-            <Grid item xs={12} sm={6} md={4} key={post["id"]}>
+          posts !== null &&
+          posts!.map((post) => (
+            <Grid item xs={12} sm={6} md={4} key={post.id}>
               <Card
                 onClick={() => handleOpenModal(post)}
                 sx={{cursor: "pointer", borderRadius: 8, boxShadow: 1}}
               >
-                <CardMedia component="img" height="200" image={post["url"]} />
+                <CardMedia component="img" height="200" image={post.url} />
               </Card>
             </Grid>
           ))}

@@ -11,6 +11,7 @@ import {
   Fade,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import {PostData} from "@/types/PostData";
 
 interface Post {
   id: number;
@@ -21,7 +22,7 @@ interface Post {
 
 interface PhotoModalProps {
   open: boolean;
-  post: Post | null;
+  post: PostData | null;
   onClose: () => void;
 }
 
