@@ -1,5 +1,6 @@
 // src/types/PostData.tsx
 export interface PostData {
+  id: number;
   user_id: number;
   url: string;
   title: string;
@@ -10,7 +11,7 @@ export interface PostData {
   camera_name: string;
   latitude: number;
   longitude: number;
-  snap_time: string;
+  snap_time: Date;
   angle: number;
   iso: string;
   shutter_speed: string;
