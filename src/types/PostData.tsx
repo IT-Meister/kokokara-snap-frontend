@@ -11,7 +11,7 @@ export interface PostData {
   camera_name: string;
   latitude: number;
   longitude: number;
-  snap_time: Date;
+  snap_time: string;
   angle: number;
   iso: string;
   shutter_speed: string;
