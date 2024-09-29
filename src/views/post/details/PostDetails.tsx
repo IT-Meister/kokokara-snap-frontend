@@ -38,7 +38,7 @@ export default function PostDetails() {
   const searchParams = useSearchParams();
   const angle = searchParams.get("angle");
   const latitude = searchParams.get("latitude");
-  const longitude = searchParams.get("longitude"); // Prevent the form from submitting the default way
+  const longitude = searchParams.get("longitude");
   const imagePath = searchParams.get("imagePath");
 
   // Suspense-wrapped component for searchParams
@@ -87,20 +87,20 @@ export default function PostDetails() {
     // Construct the post data with required and optional fields
     const postData = {
       // required
-      user_id: user["id"] ?? 0,
+      user_id: user["id"] ?? 1,
       url: decodeURIComponent(imagePath!),
       title,
-      prefecutre: "",
-      city_name: "",
+      prefecture: 13,
+      city_name: "渋谷",
       brand: cameraBrand,
       camera_name: cameraName,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: +latitude!,
+      longitude: +longitude!,
 
       // optional
       description: description || null, // optional
       snap_time: snapTime || null, // optional
-      angle: angle || null, // optional
+      angle: +angle! || null, // optional
       iso: iso || null, // optional
       f_value: fValue || null, // optional
       shutter_speed: shutterSpeed || null, // optional
@@ -120,7 +120,7 @@ export default function PostDetails() {
       if (response.ok) {
         // Successfully posted, redirect or notify user
         alert("投稿が成功しました！");
-        router.push("/post/details"); // Redirect after success
+        router.push("/"); // Redirect after success
       } else {
         // Handle error response
         alert("投稿に失敗しました。もう一度お試しください。");
