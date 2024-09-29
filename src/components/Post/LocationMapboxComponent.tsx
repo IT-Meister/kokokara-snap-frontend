@@ -29,8 +29,9 @@ export default function LocationMapboxComponent({
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current!,
       style: "mapbox://styles/mapbox/streets-v12",
-      center: [-74.5, 40],
-      zoom: 9,
+      center: [139.75, 35.6764],
+      zoom: 12,
+      attributionControl: false,
     });
 
     mapRef.current.on("load", () => setMapLoaded(true));
@@ -48,7 +49,7 @@ export default function LocationMapboxComponent({
   });
 
   return (
-    <div style={{width: "100%", height: "100%"}}>
+    <div style={{position: "relative", width: "100%", height: "100vh"}}>
       {mapLoaded && (
         <Box
           sx={{
@@ -66,16 +67,15 @@ export default function LocationMapboxComponent({
           />
         </Box>
       )}
-
-      <div
-        id="map"
+      <Box
         ref={mapContainerRef}
-        style={{
+        id="map"
+        sx={{
           width: "100%", // Set map width
           height: "100vh", // Set map height
-          position: "relative", // Keep position relative to handle overlays
+          borderRadius: 8,
         }}
-      ></div>
+      ></Box>
 
       {/* Rotate Buttons */}
       <Box
@@ -83,7 +83,7 @@ export default function LocationMapboxComponent({
           display: "flex",
           gap: 2,
           position: "absolute", // Position it absolutely within the map container
-          bottom: "90px",
+          bottom: 10,
           left: "50%",
           transform: "translateX(-50%)", // Center horizontally
           zIndex: 1,

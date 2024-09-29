@@ -28,8 +28,11 @@ export const useMapMarker = ({
       el.style.backgroundImage =
         "url('/2559828_camera_media_network_social_icon.png')";
       el.style.backgroundSize = "cover";
+      // el.style.backgroundRepeat = "no-repeat";
       el.style.cursor = "pointer";
-      el.style.transformOrigin = "center";
+
+      // Properly center the marker on the map using transform
+      el.style.transform = "translate(-50%, -50%)"; // Center the marker
 
       if (markerRef.current) {
         markerRef.current.setLngLat(e.lngLat);
@@ -45,6 +48,28 @@ export const useMapMarker = ({
         markerRef.current = newMarker;
       }
     };
+
+    // // for testing
+    // const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
+    //   const {lng, lat} = e.lngLat;
+
+    //   // Directly create a simple marker without custom element for testing
+    //   if (markerRef.current) {
+    //     markerRef.current.setLngLat([lng, lat]);
+    //     markerRef.current.getPopup()?.setText(`Lat: ${lat}, Lng: ${lng}`);
+    //   } else {
+    //     const newMarker = new mapboxgl.Marker() // No custom element
+    //       .setLngLat([lng, lat])
+    //       .setPopup(
+    //         new mapboxgl.Popup({offset: 25}).setText(`Lat: ${lat}, Lng: ${lng}`)
+    //       )
+    //       .addTo(map);
+
+    //     markerRef.current = newMarker;
+    //   }
+
+    //   console.log("Marker added at:", {lng, lat});
+    // };
 
     // Add click event listener for the map
     map.on("click", handleMapClick);

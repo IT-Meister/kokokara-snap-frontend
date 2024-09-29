@@ -15,12 +15,12 @@ import {
   Grid,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function PostDetails() {
   // for user inputs
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [latlng, setLatlng] = useState("");
   const [cameraBrand, setCameraBrand] = useState("");
   const [cameraName, setCameraName] = useState("");
   const [isPrimary, setIsPrimary] = useState(false);
@@ -29,9 +29,11 @@ export default function PostDetails() {
   const [fValue, setFValue] = useState("");
   const [shutterSpeed, setShutterSpeed] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const searchParams = useSearchParams();
   const angle = searchParams.get("angle");
+  const latLng = searchParams.get("latLng");
 
   const router = useRouter();
   // const pic_url = decodeURIComponent(imagePath || ""); // pic_url is required
@@ -82,17 +84,19 @@ export default function PostDetails() {
     const postData = {
       pic_url: "", // required
       title, // required
-      latlng, // required
+      latlng: "", // required
       camera_brand: cameraBrand || null, // optional
       camera_name: cameraName || null, // optional
       is_primary: isPrimary || null, // optional
       description: description || null, // optional
       snap_time: snapTime || null, // optional
-      angle: angle || null, // optional
+      angle: angle || 0, // optional
       iso: iso || null, // optional
       f_value: fValue || null, // optional
       shutter_speed: shutterSpeed || null, // optional
     };
+
+    setLoading(true);
 
     try {
       const response = await fetch("http://127.0.0.1:8080/api/v1/post", {
@@ -115,10 +119,30 @@ export default function PostDetails() {
       console.error("Error:", error);
       alert("サーバーへの接続に問題があります。");
     }
+    setLoading(false);
   };
 
   return (
     <Box sx={{backgroundColor: "#fff", height: "100vh", width: "100%"}}>
+      {/* Overlay the loading spinner */}
+      {loading && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          bgcolor="rgba(255, 255, 255, 0.7)" // Semi-transparent overlay
+          zIndex={10}
+          flexDirection="column"
+        >
+          <CircularProgress />
+          <Typography mt={2}>投稿しています...</Typography>
+        </Box>
+      )}
       {/* Main Content */}
       <Container maxWidth="lg" sx={{mt: 10}}>
         <Grid container spacing={2}>
@@ -147,16 +171,6 @@ export default function PostDetails() {
                 sx={{mb: 2}}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                required={true}
-              />
-              <TextField
-                label="位置情報 (緯度, 経度)"
-                placeholder="位置情報を追加する"
-                variant="outlined"
-                fullWidth
-                sx={{mb: 2}}
-                value={latlng}
-                onChange={(e) => setLatlng(e.target.value)}
                 required={true}
               />
 
@@ -247,7 +261,7 @@ export default function PostDetails() {
                 }}
                 onClick={handlePostClick}
               >
-                公開する
+                投稿する
               </Button>
             </Box>
           </Grid>
