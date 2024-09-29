@@ -10,11 +10,15 @@ import {useMapMarker} from "./LocationMapMarker";
 interface MapComponentProps {
   markerRotation: number;
   setMarkerRotation: React.Dispatch<React.SetStateAction<number>>;
+  setLatitude: React.Dispatch<React.SetStateAction<number>>;
+  setLongitude: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function LocationMapboxComponent({
   markerRotation,
   setMarkerRotation,
+  setLatitude,
+  setLongitude,
 }: MapComponentProps) {
   const [mapLoaded, setMapLoaded] = useState(false);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -46,6 +50,8 @@ export default function LocationMapboxComponent({
     map: mapRef.current,
     markerRotation,
     setMarkerRotation,
+    setLatitude,
+    setLongitude,
   });
 
   return (

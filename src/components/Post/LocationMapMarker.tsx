@@ -5,12 +5,16 @@ interface UseMapMarkerProps {
   map: mapboxgl.Map | null;
   markerRotation: number;
   setMarkerRotation: React.Dispatch<React.SetStateAction<number>>;
+  setLatitude: React.Dispatch<React.SetStateAction<number>>;
+  setLongitude: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const useMapMarker = ({
   map,
   markerRotation,
   setMarkerRotation,
+  setLatitude,
+  setLongitude,
 }: UseMapMarkerProps) => {
   const markerRef = useRef<mapboxgl.Marker | null>(null);
 
@@ -19,6 +23,8 @@ export const useMapMarker = ({
 
     const handleMapClick = (e: mapboxgl.MapMouseEvent) => {
       const {lng, lat} = e.lngLat;
+      setLatitude(lat);
+      setLongitude(lng);
 
       // Create a custom marker element
       const el = document.createElement("div");

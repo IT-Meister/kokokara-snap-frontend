@@ -33,7 +33,8 @@ export default function PostDetails() {
 
   const searchParams = useSearchParams();
   const angle = searchParams.get("angle");
-  const latLng = searchParams.get("latLng");
+  const latitude = searchParams.get("latitude");
+  const longitude = searchParams.get("longitude");
 
   const router = useRouter();
   // const pic_url = decodeURIComponent(imagePath || ""); // pic_url is required
@@ -82,15 +83,21 @@ export default function PostDetails() {
 
     // Construct the post data with required and optional fields
     const postData = {
-      pic_url: "", // required
-      title, // required
-      latlng: "", // required
-      camera_brand: cameraBrand || null, // optional
-      camera_name: cameraName || null, // optional
-      is_primary: isPrimary || null, // optional
+      // required
+      user_id: 1,
+      url: "",
+      title,
+      prefecutre: "",
+      city_namee: "",
+      brand: "",
+      camera_name: "",
+      latitude: latitude,
+      longitude: longitude,
+
+      // optional
       description: description || null, // optional
       snap_time: snapTime || null, // optional
-      angle: angle || 0, // optional
+      angle: angle || null, // optional
       iso: iso || null, // optional
       f_value: fValue || null, // optional
       shutter_speed: shutterSpeed || null, // optional
@@ -176,6 +183,18 @@ export default function PostDetails() {
 
               {/* Optional Fields */}
               <TextField
+                label="詳細"
+                placeholder="詳細を追加する"
+                variant="outlined"
+                fullWidth
+                sx={{mb: 2}}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required={false}
+              />
+
+              {/* Optional Fields */}
+              <TextField
                 label="カメラブランド"
                 placeholder="カメラブランドを追加する"
                 variant="outlined"
@@ -183,6 +202,7 @@ export default function PostDetails() {
                 sx={{mb: 2}}
                 value={cameraBrand}
                 onChange={(e) => setCameraBrand(e.target.value)}
+                required={true}
               />
               <TextField
                 label="カメラ名"
@@ -192,6 +212,7 @@ export default function PostDetails() {
                 sx={{mb: 2}}
                 value={cameraName}
                 onChange={(e) => setCameraName(e.target.value)}
+                required={true}
               />
               <TextField
                 label="スナップ時間"
