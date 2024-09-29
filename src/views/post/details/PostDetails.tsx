@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CircularProgress from "@mui/material/CircularProgress";
+import {useUser} from "@/libs/store/store";
 
 export default function PostDetails() {
   // for user inputs
@@ -31,13 +32,14 @@ export default function PostDetails() {
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+  const user = useUser();
+
   const searchParams = useSearchParams();
   const angle = searchParams.get("angle");
   const latitude = searchParams.get("latitude");
-  const longitude = searchParams.get("longitude");
-
-  const router = useRouter();
-  // const pic_url = decodeURIComponent(imagePath || ""); // pic_url is required
+  const longitude = searchParams.get("longitude"); // Prevent the form from submitting the default way
+  const imagePath = searchParams.get("imagePath");
 
   // Suspense-wrapped component for searchParams
   function SearchParamsComponent() {
@@ -78,19 +80,20 @@ export default function PostDetails() {
     setShowMoreOptions(!showMoreOptions);
   };
 
+  // Suspense-wrapped component for searchParams
   const handlePostClick = async (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent the form from submitting the default way
+    e.preventDefault();
 
     // Construct the post data with required and optional fields
     const postData = {
       // required
-      user_id: 1,
-      url: "",
+      user_id: user["id"] ?? 0,
+      url: decodeURIComponent(imagePath!),
       title,
       prefecutre: "",
-      city_namee: "",
-      brand: "",
-      camera_name: "",
+      city_name: "",
+      brand: cameraBrand,
+      camera_name: cameraName,
       latitude: latitude,
       longitude: longitude,
 
