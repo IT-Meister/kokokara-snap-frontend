@@ -11,25 +11,35 @@ import {
   Container,
   Box,
   Paper,
-  MenuItem,
-  Select,
-  FormControl,
   Collapse,
   Grid,
-  SelectChangeEvent,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CircularProgress from "@mui/material/CircularProgress";
+import {useUser} from "@/libs/store/store";
 
 export default function PostDetails() {
   // for user inputs
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [link, setLink] = useState("");
-  const [tags, setTags] = useState("");
-  const [board, setBoard] = useState("");
+  const [cameraBrand, setCameraBrand] = useState("");
+  const [cameraName, setCameraName] = useState("");
+  const [isPrimary, setIsPrimary] = useState(false);
+  const [snapTime, setSnapTime] = useState("");
+  const [iso, setIso] = useState("");
+  const [fValue, setFValue] = useState("");
+  const [shutterSpeed, setShutterSpeed] = useState("");
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+  const user = useUser();
+
+  const searchParams = useSearchParams();
+  const angle = searchParams.get("angle");
+  const latitude = searchParams.get("latitude");
+  const longitude = searchParams.get("longitude");
+  const imagePath = searchParams.get("imagePath");
 
   // Suspense-wrapped component for searchParams
   function SearchParamsComponent() {
@@ -51,6 +61,7 @@ export default function PostDetails() {
           <Image
             src={decodeURIComponent(imagePath!)}
             alt="Preview"
+            fill
             style={{
               width: "100%",
               height: "100%",
@@ -65,21 +76,83 @@ export default function PostDetails() {
     );
   }
 
-  const handleBoardChange = (event: SelectChangeEvent) => {
-    setBoard(event.target.value as string);
-  };
-
   const toggleMoreOptions = () => {
     setShowMoreOptions(!showMoreOptions);
   };
 
-  const handlePostClick = () => {
-    // Publish button click action
-    router.push("/post/details");
+  // Suspense-wrapped component for searchParams
+  const handlePostClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    // Construct the post data with required and optional fields
+    const postData = {
+      // required
+      user_id: user["id"] ?? 1,
+      url: decodeURIComponent(imagePath!),
+      title,
+      prefecture: 13,
+      city_name: "渋谷",
+      brand: cameraBrand,
+      camera_name: cameraName,
+      latitude: +latitude!,
+      longitude: +longitude!,
+
+      // optional
+      description: description || null, // optional
+      snap_time: snapTime || null, // optional
+      angle: +angle! || null, // optional
+      iso: iso || null, // optional
+      f_value: fValue || null, // optional
+      shutter_speed: shutterSpeed || null, // optional
+    };
+
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://127.0.0.1:8080/api/v1/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (response.ok) {
+        // Successfully posted, redirect or notify user
+        alert("投稿が成功しました！");
+        router.push("/"); // Redirect after success
+      } else {
+        // Handle error response
+        alert("投稿に失敗しました。もう一度お試しください。");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("サーバーへの接続に問題があります。");
+    }
+    setLoading(false);
   };
 
   return (
     <Box sx={{backgroundColor: "#fff", height: "100vh", width: "100%"}}>
+      {/* Overlay the loading spinner */}
+      {loading && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          bgcolor="rgba(255, 255, 255, 0.7)" // Semi-transparent overlay
+          zIndex={10}
+          flexDirection="column"
+        >
+          <CircularProgress />
+          <Typography mt={2}>投稿しています...</Typography>
+        </Box>
+      )}
       {/* Main Content */}
       <Container maxWidth="lg" sx={{mt: 10}}>
         <Grid container spacing={2}>
@@ -99,6 +172,7 @@ export default function PostDetails() {
                 alignItems: "center",
               }}
             >
+              {/* Required Fields */}
               <TextField
                 label="タイトル"
                 placeholder="タイトルを追加する"
@@ -109,51 +183,78 @@ export default function PostDetails() {
                 onChange={(e) => setTitle(e.target.value)}
                 required={true}
               />
+
+              {/* Optional Fields */}
               <TextField
-                label="説明文"
-                placeholder="詳しい説明文を追加する"
+                label="詳細"
+                placeholder="詳細を追加する"
                 variant="outlined"
                 fullWidth
-                multiline
-                rows={4}
                 sx={{mb: 2}}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required={true}
+                required={false}
               />
+
+              {/* Optional Fields */}
               <TextField
-                label="リンク"
-                placeholder="リンクを追加する"
+                label="カメラブランド"
+                placeholder="カメラブランドを追加する"
                 variant="outlined"
                 fullWidth
                 sx={{mb: 2}}
-                value={link}
-                onChange={(e) => setLink(e.target.value)}
+                value={cameraBrand}
+                onChange={(e) => setCameraBrand(e.target.value)}
                 required={true}
               />
-              <FormControl fullWidth sx={{mb: 2}}>
-                <Select
-                  value={board}
-                  onChange={handleBoardChange}
-                  displayEmpty
-                  defaultValue=""
-                  required={true}
-                >
-                  <MenuItem value="">
-                    <em>ボードを選択する</em>
-                  </MenuItem>
-                  <MenuItem value={1}>ボードA</MenuItem>
-                  <MenuItem value={2}>ボードB</MenuItem>
-                </Select>
-              </FormControl>
               <TextField
-                label="タグを追加する"
-                placeholder="タグを追加する"
+                label="カメラ名"
+                placeholder="カメラ名を追加する"
                 variant="outlined"
                 fullWidth
                 sx={{mb: 2}}
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
+                value={cameraName}
+                onChange={(e) => setCameraName(e.target.value)}
+                required={true}
+              />
+              <TextField
+                label="スナップ時間"
+                placeholder="スナップ時間を追加する (例: 2023-09-13T14:00)"
+                type="datetime-local"
+                fullWidth
+                sx={{mb: 2}}
+                value={snapTime}
+                onChange={(e) => setSnapTime(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                label="ISO"
+                placeholder="ISOを追加する"
+                variant="outlined"
+                fullWidth
+                sx={{mb: 2}}
+                value={iso}
+                onChange={(e) => setIso(e.target.value)}
+              />
+              <TextField
+                label="F値"
+                placeholder="F値を追加する"
+                variant="outlined"
+                fullWidth
+                sx={{mb: 2}}
+                value={fValue}
+                onChange={(e) => setFValue(e.target.value)}
+              />
+              <TextField
+                label="シャッタースピード"
+                placeholder="シャッタースピードを追加する"
+                variant="outlined"
+                fullWidth
+                sx={{mb: 2}}
+                value={shutterSpeed}
+                onChange={(e) => setShutterSpeed(e.target.value)}
               />
 
               {/* Additional Options */}
@@ -184,7 +285,7 @@ export default function PostDetails() {
                 }}
                 onClick={handlePostClick}
               >
-                公開する
+                投稿する
               </Button>
             </Box>
           </Grid>
