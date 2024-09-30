@@ -57,10 +57,14 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
       popup.remove();
     });
 
-    new mapboxgl.Marker(el)
+    const marker = new mapboxgl.Marker(el)
       .setLngLat([data.longitude, data.latitude] as LngLatLike)
       .setPopup(popup)
       .addTo(mapRef.current!);
+
+    return () => {
+      marker.remove();
+    };
   }, [data, mapRef, setSelectedPost]);
 
   return null;

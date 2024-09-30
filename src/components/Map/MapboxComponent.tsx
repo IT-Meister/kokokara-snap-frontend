@@ -10,7 +10,6 @@ import MapCustomMarker from "./MapCustomMarker";
 import PhotoDetailView from "./MapPostDetailsPanel";
 import {PostData} from "@/types/PostData";
 import {useUser} from "@/libs/store/store";
-import {mockPostData} from "@/mock-data/mockPosts";
 
 export default function MapboxComponent() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -56,10 +55,7 @@ export default function MapboxComponent() {
     var zoom = mapRef.current?.getZoom();
     try {
       const res = await fetch(
-        "http://127.0.0.1:8080/api/v1/post/map?latitude=40.78&longitude=-73.96&zoom=20"
-
-        // use this URL
-        // `http://127.0.0.1:8080/api/v1/post/map?latitude=${latLng?.lat}&longitude=${latLng?.lng}&zoom=${zoom}`
+        `http://127.0.0.1:8080/api/v1/post/map?latitude=${latLng?.lat}&longitude=${latLng?.lng}&zoom=${zoom}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -136,8 +132,7 @@ export default function MapboxComponent() {
         sx={{height: "800px", borderRadius: 8}}
       >
         {!loading &&
-          // using mock data for now.
-          mockPostData.map((data, index) => (
+          data.map((data, index) => (
             <MapCustomMarker
               key={index}
               mapRef={mapRef}

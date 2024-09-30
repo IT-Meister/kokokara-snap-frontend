@@ -1,5 +1,6 @@
 // src/types/PostData.tsx
 export interface PostData {
+  id: number;
   user_id: number;
   url: string;
   title: string;
