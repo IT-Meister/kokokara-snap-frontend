@@ -1,5 +1,5 @@
 import React from "react";
-import Image from 'next/image';
+import Image from "next/image";
 
 import {
   Paper,
@@ -105,6 +105,8 @@ const SearchBarDropdown: React.FC<SearchBarDropdownProps> = ({
                         height: "100%",
                         objectFit: "cover",
                       }}
+                      width={300}
+                      height={200}
                     />
                     <Typography variant="body2">{item.label}</Typography>
                   </Paper>
