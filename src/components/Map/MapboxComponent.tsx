@@ -51,11 +51,18 @@ export default function MapboxComponent() {
 
   // fetch post data
   async function fetchData() {
-    var latLng = mapRef.current?.getCenter();
+    const bounds = mapRef.current!.getBounds();
+
+    // Get northeast corner coordinates
+    const northeast = bounds!.getNorthEast();
+    // Get southwest corner coordinates
+    const southwest = bounds!.getSouthWest();
+
     var zoom = mapRef.current?.getZoom();
     try {
       const res = await fetch(
-        `http://127.0.0.1:8080/api/v1/post/map?latitude=${latLng?.lat}&longitude=${latLng?.lng}&zoom=${zoom}`
+        `http://127.0.0.1:8080/api/v1/post/map?NElatitude=${northeast.lat}&NElongitude=${northeast.lng}&
+        SWlatitude=${southwest.lat}&SWlongitude=${southwest.lng}&zoom=${zoom}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
