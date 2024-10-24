@@ -59,10 +59,10 @@ export default function MapboxComponent() {
     const southwest = bounds!.getSouthWest();
 
     var zoom = mapRef.current?.getZoom();
+
     try {
       const res = await fetch(
-        `http://127.0.0.1:8080/api/v1/post/map?NElatitude=${northeast.lat}&NElongitude=${northeast.lng}&
-        SWlatitude=${southwest.lat}&SWlongitude=${southwest.lng}&zoom=${zoom}`
+        `http://127.0.0.1:8080/api/v1/post/map?NElatitude=${northeast.lat}&NElongitude=${northeast.lng}&SWlatitude=${southwest.lat}&SWlongitude=${southwest.lng}&zoom=${zoom}`
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
