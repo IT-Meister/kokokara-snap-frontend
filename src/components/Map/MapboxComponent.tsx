@@ -61,8 +61,19 @@ export default function MapboxComponent() {
     var zoom = mapRef.current?.getZoom();
 
     try {
+      // original fetch function
+
+      // const res = await fetch(
+      //   `http://127.0.0.1:8080/api/v1/post/map?NElatitude=${northeast.lat}&NElongitude=${northeast.lng}&SWlatitude=${southwest.lat}&SWlongitude=${southwest.lng}&zoom=${zoom}`
+      // );
+
+      // new fetch func with credentials
       const res = await fetch(
-        `http://127.0.0.1:8080/api/v1/post/map?NElatitude=${northeast.lat}&NElongitude=${northeast.lng}&SWlatitude=${southwest.lat}&SWlongitude=${southwest.lng}&zoom=${zoom}`
+        `http://127.0.0.1:8080/api/v1/post/map?NElatitude=${northeast.lat}&NElongitude=${northeast.lng}&SWlatitude=${southwest.lat}&SWlongitude=${southwest.lng}&zoom=${zoom}`,
+        {
+          method: "GET",
+          credentials: "include", // Include cookies for authentication
+        }
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");
